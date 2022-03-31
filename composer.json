@@ -1,0 +1,29 @@
+{
+    "name": "alibabacloud/dkms-gcs-sdk",
+    "description": "Aliyun Dkms Gcs SDK Library for PHP",
+    "type": "library",
+    "require": {
+        "php": ">=5.6",
+        "alibabacloud/tea": "^3.1",
+        "alibabacloud/tea-utils": "^0.2.14",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "google/protobuf": "^3.3"
+    },
+    "license": "Apache-2.0",
+    "autoload": {
+        "psr-4": {
+            "AlibabaCloud\\Dkms\\Gcs\\Sdk\\": "sdk/src/",
+            "AlibabaCloud\\Dkms\\Gcs\\OpenApi\\Util\\": "openapi-util/src/",
+            "GPBMetadata\\": "openapi-util/src/Protobuf/GPBMetadata",
+            "AlibabaCloud\\Dkms\\Gcs\\OpenApi\\Credential\\": "openapi-credential/src/",
+            "AlibabaCloud\\Dkms\\Gcs\\OpenApi\\": "openapi/src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alibaba Cloud DKMS SDK",
+            "email": "dkms-team@alibabacloud.com"
+        }
+    ]
+}
