@@ -41,9 +41,11 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedEncryptRequest($reqBody);
-        $respBytes = $this->doRequest("Encrypt", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $runtime);
-        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseEncryptResponse($respBytes);
+        $response = $this->doRequest("Encrypt", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseEncryptResponse($respBody);
         return EncryptResponse::fromMap([
+            "Headers" => @$response["headers"],
             "RequestId" => @$respMap["RequestId"],
             "KeyId" => @$respMap["KeyId"],
             "CiphertextBlob" => @$respMap["CiphertextBlob"],
@@ -73,9 +75,11 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedDecryptRequest($reqBody);
-        $respBytes = $this->doRequest("Decrypt", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $runtime);
-        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseDecryptResponse($respBytes);
+        $response = $this->doRequest("Decrypt", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseDecryptResponse($respBody);
         return DecryptResponse::fromMap([
+            "Headers" => @$response["headers"],
             "RequestId" => @$respMap["RequestId"],
             "KeyId" => @$respMap["KeyId"],
             "Plaintext" => @$respMap["Plaintext"],
@@ -104,9 +108,11 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedHmacRequest($reqBody);
-        $respBytes = $this->doRequest("Hmac", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $runtime);
-        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseHmacResponse($respBytes);
+        $response = $this->doRequest("Hmac", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseHmacResponse($respBody);
         return HmacResponse::fromMap([
+            "Headers" => @$response["headers"],
             "RequestId" => @$respMap["RequestId"],
             "KeyId" => @$respMap["KeyId"],
             "Signature" => @$respMap["Signature"]
@@ -133,9 +139,11 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedSignRequest($reqBody);
-        $respBytes = $this->doRequest("Sign", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $runtime);
-        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseSignResponse($respBytes);
+        $response = $this->doRequest("Sign", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseSignResponse($respBody);
         return SignResponse::fromMap([
+            "Headers" => @$response["headers"],
             "RequestId" => @$respMap["RequestId"],
             "KeyId" => @$respMap["KeyId"],
             "Signature" => @$respMap["Signature"],
@@ -164,9 +172,11 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedVerifyRequest($reqBody);
-        $respBytes = $this->doRequest("Verify", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $runtime);
-        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseVerifyResponse($respBytes);
+        $response = $this->doRequest("Verify", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseVerifyResponse($respBody);
         return VerifyResponse::fromMap([
+            "Headers" => @$response["headers"],
             "RequestId" => @$respMap["RequestId"],
             "KeyId" => @$respMap["KeyId"],
             "Value" => @$respMap["Value"],
@@ -195,9 +205,11 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedGenerateRandomRequest($reqBody);
-        $respBytes = $this->doRequest("GenerateRandom", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $runtime);
-        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseGenerateRandomResponse($respBytes);
+        $response = $this->doRequest("GenerateRandom", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseGenerateRandomResponse($respBody);
         return GenerateRandomResponse::fromMap([
+            "Headers" => @$response["headers"],
             "RequestId" => @$respMap["RequestId"],
             "Random" => @$respMap["Random"]
         ]);
@@ -223,9 +235,11 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedGenerateDataKeyRequest($reqBody);
-        $respBytes = $this->doRequest("GenerateDataKey", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $runtime);
-        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseGenerateDataKeyResponse($respBytes);
+        $response = $this->doRequest("GenerateDataKey", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseGenerateDataKeyResponse($respBody);
         return GenerateDataKeyResponse::fromMap([
+            "Headers" => @$response["headers"],
             "RequestId" => @$respMap["RequestId"],
             "KeyId" => @$respMap["KeyId"],
             "Iv" => @$respMap["Iv"],
@@ -255,9 +269,11 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedGetPublicKeyRequest($reqBody);
-        $respBytes = $this->doRequest("GetPublicKey", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $runtime);
-        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseGetPublicKeyResponse($respBytes);
+        $response = $this->doRequest("GetPublicKey", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseGetPublicKeyResponse($respBody);
         return GetPublicKeyResponse::fromMap([
+            "Headers" => @$response["headers"],
             "RequestId" => @$respMap["RequestId"],
             "KeyId" => @$respMap["KeyId"],
             "PublicKey" => @$respMap["PublicKey"]

@@ -5,6 +5,7 @@ namespace AlibabaCloud\Dkms\Gcs\OpenApi\Util;
 use AlibabaCloud\Tea\Request;
 use \Exception;
 use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
+use Google\Protobuf\Value;
 
 class Utils
 {
@@ -54,6 +55,25 @@ class Utils
     {
         $string = hex2bin($hex);
         return unpack('C*', $string);
+    }
+
+    /**
+     * @param string[] $headers
+     * @param string[] $constraint
+     * @return array
+     */
+    public static function filterHeaders($headers, $constraint)
+    {
+        $tmp = [];
+        if (AlibabaCloudTeaUtils::isUnset($constraint)) {
+            return $tmp;
+        }
+        foreach ($constraint as $key) {
+            if (isset($headers[$key])) {
+                $tmp[$key] = $headers[$key];
+            }
+        }
+        return $tmp;
     }
 
     /**
@@ -538,7 +558,8 @@ class Utils
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedGetPublicKeyRequest($reqBody){
+    public static function getSerializedGetPublicKeyRequest($reqBody)
+    {
         $request = new Protobuf\GetPublicKeyRequest();
         if (isset($reqBody['KeyId'])) {
             $request->setKeyId($reqBody['KeyId']);
@@ -551,7 +572,8 @@ class Utils
      * @return array
      * @throws Exception
      */
-    public static function parseGetPublicKeyResponse($resBody){
+    public static function parseGetPublicKeyResponse($resBody)
+    {
         $response = new Protobuf\GetPublicKeyResponse();
         $response->mergeFromString(self::toString($resBody));
         return [

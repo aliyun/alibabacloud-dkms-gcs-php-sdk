@@ -112,7 +112,7 @@ class Client {
      * @throws Exception
      * @throws TeaUnableRetryError
      */
-    public function doRequest($apiName, $apiVersion, $protocol, $method, $signatureMethod, $reqBodyBytes, $runtime){
+    public function doRequest($apiName, $apiVersion, $protocol, $method, $signatureMethod, $reqBodyBytes, $headers, $runtime){
         $runtime->validate();
         $_runtime = [
             "timeouted" => "retry",
@@ -132,7 +132,8 @@ class Client {
                 "policy" => Utils::defaultString($runtime->backoffPolicy, "no"),
                 "period" => Utils::defaultNumber($runtime->backoffPeriod, 1)
             ],
-            "ignoreSSL" => $runtime->ignoreSSL
+            "ignoreSSL" => $runtime->ignoreSSL,
+            "verify" => $runtime->verify
         ];
         $_lastRequest = null;
         $_lastException = null;
@@ -151,7 +152,7 @@ class Client {
                 $_request->protocol = Utils::defaultString($this->_protocol, $protocol);
                 $_request->method = $method;
                 $_request->pathname = "/";
-                $_request->headers = [
+                $_request->headers = Tea::merge([
                     "accept" => "application/x-protobuf",
                     "host" => AlibabaCloudDkmsGcsOpenApiUtilClient::getHost($this->_regionId, $this->_endpoint),
                     "date" => Utils::getDateUTCString(),
@@ -160,7 +161,7 @@ class Client {
                     "x-kms-apiname" => $apiName,
                     "x-kms-signaturemethod" => $signatureMethod,
                     "x-kms-acccesskeyid" => $this->_credential->getAccessKeyId()
-                ];
+                ], $headers);
                 $_request->headers["content-type"] = "application/x-protobuf";
                 $_request->headers["content-length"] = AlibabaCloudDkmsGcsOpenApiUtilClient::getContentLength($reqBodyBytes);
                 $_request->headers["content-sha256"] = AlibabaCloudDkmsGcsOpenApiUtilClient::getContentSHA256($reqBodyBytes);
@@ -191,7 +192,10 @@ class Client {
                     ]);
                 }
                 $bodyBytes = Utils::readAsBytes($_response->body);
-                return $bodyBytes;
+                return [
+                    "headers" => AlibabaCloudDkmsGcsOpenApiUtilClient::filterHeaders($_response->headers, $runtime->headers),
+                    "body" => $bodyBytes
+                ];
             }
             catch (Exception $e) {
                 if (!($e instanceof TeaError)) {

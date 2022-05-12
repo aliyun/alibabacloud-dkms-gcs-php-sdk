@@ -7,6 +7,7 @@ use AlibabaCloud\Tea\Model;
 
 class SignResponse extends Model {
     protected $_name = [
+        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'signature' => 'Signature',
         'algorithm' => 'Algorithm',
@@ -16,6 +17,9 @@ class SignResponse extends Model {
     public function validate() {}
     public function toMap() {
         $res = [];
+        if (null !== $this->headers) {
+            $res['Headers'] = $this->headers;
+        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
@@ -39,6 +43,9 @@ class SignResponse extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
+        if(isset($map['Headers'])){
+            $model->headers = $map['Headers'];
+        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
@@ -56,6 +63,11 @@ class SignResponse extends Model {
         }
         return $model;
     }
+    /**
+     * @var string[]
+     */
+    public $headers;
+
     /**
      * @var string
      */
