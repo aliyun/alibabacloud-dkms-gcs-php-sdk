@@ -9,6 +9,15 @@ use AlibabaCloud\Tea\Request;
 class Client {
 
     /**
+     * @param string[] $headers
+     * @param string[] $constraint
+     * @return array
+     */
+    public static function filterHeaders($headers, $constraint){
+        return Utils::filterHeaders($headers, $constraint);
+    }
+
+    /**
      * @param string $regionId
      * @param string $endpoint
      * @return string

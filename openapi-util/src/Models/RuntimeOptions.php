@@ -21,6 +21,7 @@ class RuntimeOptions extends Model {
         'socks5Proxy' => 'socks5Proxy',
         'socks5NetWork' => 'socks5NetWork',
         'verify' => 'verify',
+        'headers' => 'headers',
     ];
     public function validate() {}
     public function toMap() {
@@ -66,6 +67,9 @@ class RuntimeOptions extends Model {
         }
         if (null !== $this->verify) {
             $res['verify'] = $this->verify;
+        }
+        if (null !== $this->headers) {
+            $res['headers'] = $this->headers;
         }
         return $res;
     }
@@ -116,6 +120,11 @@ class RuntimeOptions extends Model {
         }
         if(isset($map['verify'])){
             $model->verify = $map['verify'];
+        }
+        if(isset($map['headers'])){
+            if(!empty($map['headers'])){
+                $model->headers = $map['headers'];
+            }
         }
         return $model;
     }
@@ -188,5 +197,10 @@ class RuntimeOptions extends Model {
      * @var string
      */
     public $verify;
+
+    /**
+     * @var string[]
+     */
+    public $headers;
 
 }

@@ -7,6 +7,7 @@ use AlibabaCloud\Tea\Model;
 
 class GetPublicKeyResponse extends Model {
     protected $_name = [
+        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'publicKey' => 'PublicKey',
         'requestId' => 'RequestId',
@@ -14,6 +15,9 @@ class GetPublicKeyResponse extends Model {
     public function validate() {}
     public function toMap() {
         $res = [];
+        if (null !== $this->headers) {
+            $res['Headers'] = $this->headers;
+        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
@@ -31,6 +35,9 @@ class GetPublicKeyResponse extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
+        if(isset($map['Headers'])){
+            $model->headers = $map['Headers'];
+        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
@@ -42,6 +49,11 @@ class GetPublicKeyResponse extends Model {
         }
         return $model;
     }
+    /**
+     * @var string[]
+     */
+    public $headers;
+
     /**
      * @var string
      */

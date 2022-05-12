@@ -7,6 +7,7 @@ use AlibabaCloud\Tea\Model;
 
 class DecryptRequest extends Model {
     protected $_name = [
+        'headers' => 'Headers',
         'ciphertextBlob' => 'CiphertextBlob',
         'keyId' => 'KeyId',
         'algorithm' => 'Algorithm',
@@ -17,6 +18,9 @@ class DecryptRequest extends Model {
     public function validate() {}
     public function toMap() {
         $res = [];
+        if (null !== $this->headers) {
+            $res['Headers'] = $this->headers;
+        }
         if (null !== $this->ciphertextBlob) {
             $res['CiphertextBlob'] = $this->ciphertextBlob;
         }
@@ -43,6 +47,9 @@ class DecryptRequest extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
+        if(isset($map['Headers'])){
+            $model->headers = $map['Headers'];
+        }
         if(isset($map['CiphertextBlob'])){
             $model->ciphertextBlob = $map['CiphertextBlob'];
         }
@@ -63,6 +70,11 @@ class DecryptRequest extends Model {
         }
         return $model;
     }
+    /**
+     * @var string[]
+     */
+    public $headers;
+
     /**
      * @var int[]
      */
