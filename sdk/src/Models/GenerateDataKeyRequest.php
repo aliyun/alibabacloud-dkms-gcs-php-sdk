@@ -7,6 +7,7 @@ use AlibabaCloud\Tea\Model;
 
 class GenerateDataKeyRequest extends Model {
     protected $_name = [
+        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'algorithm' => 'Algorithm',
         'numberOfBytes' => 'NumberOfBytes',
@@ -15,6 +16,9 @@ class GenerateDataKeyRequest extends Model {
     public function validate() {}
     public function toMap() {
         $res = [];
+        if (null !== $this->headers) {
+            $res['Headers'] = $this->headers;
+        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
@@ -35,6 +39,9 @@ class GenerateDataKeyRequest extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
+        if(isset($map['Headers'])){
+            $model->headers = $map['Headers'];
+        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
@@ -49,6 +56,11 @@ class GenerateDataKeyRequest extends Model {
         }
         return $model;
     }
+    /**
+     * @var string[]
+     */
+    public $headers;
+
     /**
      * @var string
      */

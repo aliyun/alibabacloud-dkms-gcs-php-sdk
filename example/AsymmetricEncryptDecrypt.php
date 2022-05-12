@@ -10,34 +10,6 @@ use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiCon
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\DecryptRequest;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\EncryptRequest;
 
-/**
- * ClientKey传参支持以下三种方式：
- * 1、通过指定ClientKey.json文件路径方式
- * 示例：
- *      String clientKeyFile = "<your client key file path>";
- *      String password = "<your client key password>";
- *      Config cfg = new Config();
- *      cfg.setClientKeyFile(clientKeyFile);
- *      cfg.setPassword(password);
- *
- * 2、通过指定ClientKey内容方式
- * 示例：
- *      String clientKeyContent = "<your client key content>";
- *      String password = "<your client key password>";
- *      Config cfg = new Config();
- *      cfg.setClientKeyContent(clientKeyContent);
- *      cfg.setPassword(password);
- *
- * 3、通过指定私钥和AccessKeyId
- * 示例：
- *      String accessKeyId = "<your client key KeyId>";
- *      String privateKey = "<parse from your client key PrivateKeyData>";
- *      Config cfg = new Config();
- *      cfg.setAccessKeyId(accessKeyId);
- *      cfg.setPrivateKey(privateKey);
- *
- */
-
 // 填写您在KMS应用管理获取的ClientKey文件路径
 // $clientKeyFile = '<your client key file path>';
 
@@ -50,8 +22,8 @@ $password = '<your client key password>';
 // 填写您的专属KMS实例服务地址
 $endpoint = '<your dkms instance service address>';
 
-// 填写您在KMS创建的主密钥Id
-$keyId = '<your cmk id>';
+// 填写您在KMS创建的非对称主密钥Id
+$keyId = '<your asymmetric cmk id>';
 
 // 加解密算法
 $algorithm = '<your encrypt algorithm>';
@@ -63,24 +35,24 @@ $plaintext = 'encrypt plaintext';
 $client = getDkmsGcsSdkClient();
 if (is_null($client)) exit(1);
 
-//使用专属KMS进行对称密钥加解密示例
-aesEncryptDecryptSample();
+//使用专属KMS进行非对称密钥加解密示例
+asymmetricEncryptDecryptSample();
 
 /**
  * 使用加密服务实例进行加解密示例
  * @return void
  */
-function aesEncryptDecryptSample()
+function asymmetricEncryptDecryptSample()
 {
     global $client, $keyId, $plaintext, $algorithm;
 
-    $cipherCtx = aesEncryptSample($client, $keyId, $plaintext, $algorithm);
+    $cipherCtx = asymmetricEncryptSample($client, $keyId, $plaintext, $algorithm);
     if ($cipherCtx !== null) {
-        $decryptResult = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toString(aesDecryptSample($client, $cipherCtx));
+        $decryptResult = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toString(asymmetricDecryptSample($client, $cipherCtx));
         if ($plaintext !== $decryptResult) {
             echo 'decrypt result not match the plaintext' . PHP_EOL;
         } else {
-            echo 'aesEncryptDecryptSample success' . PHP_EOL;
+            echo 'asymmetricEncryptDecryptSample success' . PHP_EOL;
         }
     }
 }
@@ -91,9 +63,9 @@ function aesEncryptDecryptSample()
  * @param string $keyId
  * @param string $plaintext
  * @param string $algorithm
- * @return AesEncryptContext
+ * @return AsymmetricEncryptContext
  */
-function aesEncryptSample($client, $keyId, $plaintext, $algorithm)
+function asymmetricEncryptSample($client, $keyId, $plaintext, $algorithm)
 {
     // 构建加密请求
     $encryptRequest = new EncryptRequest();
@@ -111,16 +83,13 @@ function aesEncryptSample($client, $keyId, $plaintext, $algorithm)
         $encryptResponse = $client->encryptWithOptions($encryptRequest, $runtimeOptions);
         // 密钥ID
         $keyId = $encryptResponse->keyId;
-        // 主密钥是对称密钥时，decrypt接口需要加密返回的Iv
-        $iv = $encryptResponse->iv;
         // 数据密文
         $cipher = $encryptResponse->ciphertextBlob;
         // 加密算法
         $algorithm = $encryptResponse->algorithm;
         var_dump($encryptResponse->toMap());
-        return new AesEncryptContext([
+        return new AsymmetricEncryptContext([
             'keyId' => $keyId,
-            'iv' => $iv,
             'ciphertextBlob' => $cipher,
             'algorithm' => $algorithm
         ]);
@@ -137,17 +106,16 @@ function aesEncryptSample($client, $keyId, $plaintext, $algorithm)
 /**
  * 解密示例
  * @param AlibabaCloudDkmsGcsSdkClient $client
- * @param AesEncryptContext $ctx
+ * @param AsymmetricEncryptContext $ctx
  * @return int[]|null
  */
-function aesDecryptSample($client, $ctx)
+function asymmetricDecryptSample($client, $ctx)
 {
     // 构建解密请求对象
     $decryptRequest = new DecryptRequest();
     $decryptRequest->keyId = $ctx->keyId;
     $decryptRequest->ciphertextBlob = $ctx->ciphertextBlob;
     $decryptRequest->algorithm = $ctx->algorithm;
-    $decryptRequest->iv = $ctx->iv;
     $runtimeOptions = new RuntimeOptions();
     // 验证服务端证书
     $runtimeOptions->verify = 'path/to/caCert.pem';
@@ -189,10 +157,9 @@ function getDkmsGcsSdkClient()
 }
 
 /**
- * The aes encrypt context may be stored
+ * The asymmetric encrypt context may be stored
  */
-class AesEncryptContext
-{
+class AsymmetricEncryptContext {
     public function __construct($config = [])
     {
         if (!empty($config)) {
@@ -205,11 +172,6 @@ class AesEncryptContext
      * @var string
      */
     public $keyId;
-
-    /**
-     * @var int[]
-     */
-    public $iv;
 
     /**
      * @var int[]

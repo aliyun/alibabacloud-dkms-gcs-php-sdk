@@ -58,7 +58,7 @@ class Config extends Model {
             $res['type'] = $this->type;
         }
         if (null !== $this->credential) {
-            $res['credential'] = null !== $this->credential ? $this->credential->toMap() : null;
+            $res['credential'] =  $this->credential;
         }
         if (null !== $this->clientKeyFile) {
             $res['clientKeyFile'] = $this->clientKeyFile;
@@ -123,7 +123,7 @@ class Config extends Model {
             $model->type = $map['type'];
         }
         if(isset($map['credential'])){
-            $model->credential = AlibabaCloudDkmsGcsOpenApiCredentialClient::fromMap($map['credential']);
+            $model->credential = $map['credential'];
         }
         if(isset($map['clientKeyFile'])){
             $model->clientKeyFile = $map['clientKeyFile'];

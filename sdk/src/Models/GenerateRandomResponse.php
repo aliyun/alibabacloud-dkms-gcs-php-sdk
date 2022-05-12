@@ -7,12 +7,16 @@ use AlibabaCloud\Tea\Model;
 
 class GenerateRandomResponse extends Model {
     protected $_name = [
+        'headers' => 'Headers',
         'random' => 'Random',
         'requestId' => 'RequestId',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
+        if (null !== $this->headers) {
+            $res['Headers'] = $this->headers;
+        }
         if (null !== $this->random) {
             $res['Random'] = $this->random;
         }
@@ -27,6 +31,9 @@ class GenerateRandomResponse extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
+        if(isset($map['Headers'])){
+            $model->headers = $map['Headers'];
+        }
         if(isset($map['Random'])){
             $model->random = $map['Random'];
         }
@@ -35,6 +42,11 @@ class GenerateRandomResponse extends Model {
         }
         return $model;
     }
+    /**
+     * @var string[]
+     */
+    public $headers;
+
     /**
      * @var int[]
      */
