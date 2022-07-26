@@ -21,7 +21,7 @@ composer require alibabacloud/dkms-gcs-sdk
 或者，在composer.json中添加以下内容声明对AlibabaCloud DKMS-GCS SDK for PHP的依赖：
 ```
 "require": {
-     "alibabacloud/dkms-gcs-sdk": "^0.2.1"
+     "alibabacloud/dkms-gcs-sdk": "^0.2.2"
  }
 ```
 然后通过运行以下内容安装依赖:
