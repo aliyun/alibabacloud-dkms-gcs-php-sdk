@@ -6,14 +6,16 @@ namespace AlibabaCloud\Dkms\Gcs\OpenApi\Util;
 use \Exception;
 use AlibabaCloud\Tea\Request;
 
-class Client {
+class Client
+{
 
     /**
      * @param string[] $headers
      * @param string[] $constraint
      * @return array
      */
-    public static function filterHeaders($headers, $constraint){
+    public static function filterHeaders($headers, $constraint)
+    {
         return Utils::filterHeaders($headers, $constraint);
     }
 
@@ -22,7 +24,8 @@ class Client {
      * @param string $endpoint
      * @return string
      */
-    public static function getHost($regionId, $endpoint){
+    public static function getHost($regionId, $endpoint)
+    {
         return Utils::getHost($regionId, $endpoint);
     }
 
@@ -31,7 +34,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function getErrMessage($msg){
+    public static function getErrMessage($msg)
+    {
         return Utils::getErrMessage($msg);
     }
 
@@ -39,7 +43,8 @@ class Client {
      * @param Request $request
      * @return string
      */
-    public static function getStringToSign($request){
+    public static function getStringToSign($request)
+    {
         return Utils::getStringToSign($request);
     }
 
@@ -47,7 +52,8 @@ class Client {
      * @param int[] $reqBody
      * @return string
      */
-    public static function getContentLength($reqBody){
+    public static function getContentLength($reqBody)
+    {
         return Utils::getContentLength($reqBody);
     }
 
@@ -55,7 +61,8 @@ class Client {
      * @param int[] $reqBody
      * @return string
      */
-    public static function getContentSHA256($reqBody){
+    public static function getContentSHA256($reqBody)
+    {
         return Utils::getContentSHA256($reqBody);
     }
 
@@ -63,7 +70,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedEncryptRequest($reqBody){
+    public static function getSerializedEncryptRequest($reqBody)
+    {
         return Utils::getSerializedEncryptRequest($reqBody);
     }
 
@@ -72,7 +80,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseEncryptResponse($resBody){
+    public static function parseEncryptResponse($resBody)
+    {
         return Utils::parseEncryptResponse($resBody);
     }
 
@@ -80,7 +89,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedDecryptRequest($reqBody){
+    public static function getSerializedDecryptRequest($reqBody)
+    {
         return Utils::getSerializedDecryptRequest($reqBody);
     }
 
@@ -89,7 +99,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseDecryptResponse($resBody){
+    public static function parseDecryptResponse($resBody)
+    {
         return Utils::parseDecryptResponse($resBody);
     }
 
@@ -97,7 +108,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedHmacRequest($reqBody){
+    public static function getSerializedHmacRequest($reqBody)
+    {
         return Utils::getSerializedHmacRequest($reqBody);
     }
 
@@ -106,7 +118,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseHmacResponse($resBody){
+    public static function parseHmacResponse($resBody)
+    {
         return Utils::parseHmacResponse($resBody);
     }
 
@@ -114,7 +127,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedSignRequest($reqBody){
+    public static function getSerializedSignRequest($reqBody)
+    {
         return Utils::getSerializedSignRequest($reqBody);
     }
 
@@ -123,7 +137,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseSignResponse($resBody){
+    public static function parseSignResponse($resBody)
+    {
         return Utils::parseSignResponse($resBody);
     }
 
@@ -131,7 +146,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedVerifyRequest($reqBody){
+    public static function getSerializedVerifyRequest($reqBody)
+    {
         return Utils::getSerializedVerifyRequest($reqBody);
     }
 
@@ -140,7 +156,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseVerifyResponse($resBody){
+    public static function parseVerifyResponse($resBody)
+    {
         return Utils::parseVerifyResponse($resBody);
     }
 
@@ -148,7 +165,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedGenerateRandomRequest($reqBody){
+    public static function getSerializedGenerateRandomRequest($reqBody)
+    {
         return Utils::getSerializedGenerateRandomRequest($reqBody);
     }
 
@@ -157,7 +175,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseGenerateRandomResponse($resBody){
+    public static function parseGenerateRandomResponse($resBody)
+    {
         return Utils::parseGenerateRandomResponse($resBody);
     }
 
@@ -165,7 +184,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedGenerateDataKeyRequest($reqBody){
+    public static function getSerializedGenerateDataKeyRequest($reqBody)
+    {
         return Utils::getSerializedGenerateDataKeyRequest($reqBody);
     }
 
@@ -174,7 +194,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseGenerateDataKeyResponse($resBody){
+    public static function parseGenerateDataKeyResponse($resBody)
+    {
         return Utils::parseGenerateDataKeyResponse($resBody);
     }
 
@@ -182,7 +203,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedGetPublicKeyRequest($reqBody){
+    public static function getSerializedGetPublicKeyRequest($reqBody)
+    {
         return Utils::getSerializedGetPublicKeyRequest($reqBody);
     }
 
@@ -190,7 +212,8 @@ class Client {
      * @param int[] $resBody
      * @return array
      */
-    public static function parseGetPublicKeyResponse($resBody){
+    public static function parseGetPublicKeyResponse($resBody)
+    {
         return Utils::parseGetPublicKeyResponse($resBody);
     }
 
@@ -198,7 +221,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedHashRequest($reqBody){
+    public static function getSerializedHashRequest($reqBody)
+    {
         return Utils::getSerializedHashRequest($reqBody);
     }
 
@@ -207,7 +231,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseHashResponse($resBody){
+    public static function parseHashResponse($resBody)
+    {
         return Utils::parseHashResponse($resBody);
     }
 
@@ -215,7 +240,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedKmsEncryptRequest($reqBody){
+    public static function getSerializedKmsEncryptRequest($reqBody)
+    {
         return Utils::getSerializedKmsEncryptRequest($reqBody);
     }
 
@@ -224,7 +250,8 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseKmsEncryptResponse($resBody){
+    public static function parseKmsEncryptResponse($resBody)
+    {
         return Utils::parseKmsEncryptResponse($resBody);
     }
 
@@ -232,7 +259,8 @@ class Client {
      * @param mixed[] $reqBody
      * @return array
      */
-    public static function getSerializedKmsDecryptRequest($reqBody){
+    public static function getSerializedKmsDecryptRequest($reqBody)
+    {
         return Utils::getSerializedKmsDecryptRequest($reqBody);
     }
 
@@ -241,7 +269,28 @@ class Client {
      * @return array
      * @throws Exception
      */
-    public static function parseKmsDecryptResponse($resBody){
+    public static function parseKmsDecryptResponse($resBody)
+    {
         return Utils::parseKmsDecryptResponse($resBody);
+    }
+
+    /**
+     * @param mixed[] $reqBody
+     * @return array
+     * @throws Exception
+     */
+    public static function getSerializedGetSecretValueRequest($reqBody)
+    {
+        return Utils::getSerializedGetSecretValueRequest($reqBody);
+    }
+
+    /**
+     * @param int[] $resBody
+     * @return array
+     * @throws Exception
+     */
+    public static function parseGetSecretValueResponse($resBody)
+    {
+        return Utils::parseGetSecretValueResponse($resBody);
     }
 }

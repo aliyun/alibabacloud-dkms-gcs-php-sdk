@@ -582,4 +582,57 @@ class Utils
             'RequestId' => $response->getRequestId()
         ];
     }
+
+    /**
+     * @param mixed[] $reqBody
+     * @return array
+     */
+    public static function getSerializedGetSecretValueRequest($reqBody)
+    {
+        $request = new Protobuf\GetSecretValueRequest();
+        if (isset($reqBody['SecretName'])) {
+            $request->setSecretName($reqBody['SecretName']);
+        }
+        if (isset($reqBody['VersionStage'])) {
+            $request->setVersionStage($reqBody['VersionStage']);
+        }
+        if (isset($reqBody['VersionId'])) {
+            $request->setVersionId($reqBody['VersionId']);
+        }
+        if (isset($reqBody['FetchExtendedConfig'])) {
+            $request->setFetchExtendedConfig($reqBody['FetchExtendedConfig']);
+        }
+        return self::toBytes($request->serializeToString());
+    }
+
+    /**
+     * @param int[] $resBody
+     * @return array
+     * @throws Exception
+     */
+    public static function parseGetSecretValueResponse($resBody)
+    {
+        $response = new Protobuf\GetSecretValueResponse();
+        $response->mergeFromString(self::toString($resBody));
+        $tmp = $response->getVersionStages();
+        $versionStages = [];
+        foreach ($tmp as $key) {
+            $versionStages[] = $key;
+        }
+        return [
+            'SecretName' => $response->getSecretName(),
+            'SecretType' => $response->getSecretType(),
+            'SecretData' => $response->getSecretData(),
+            'SecretDataType' => $response->getSecretDataType(),
+            'VersionStages' => $versionStages,
+            'VersionId' => $response->getVersionId(),
+            'CreateTime' => $response->getCreateTime(),
+            'RequestId' => $response->getRequestId(),
+            'LastRotationDate' => $response->getLastRotationDate(),
+            'NextRotationDate' => $response->getNextRotationDate(),
+            'ExtendedConfig' => $response->getExtendedConfig(),
+            'AutomaticRotation' => $response->getAutomaticRotation(),
+            'RotationInterval' => $response->getRotationInterval(),
+        ];
+    }
 }
