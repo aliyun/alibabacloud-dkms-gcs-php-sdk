@@ -24,10 +24,14 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Models\GenerateDataKeyRequest;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\GenerateDataKeyResponse;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetPublicKeyRequest;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetPublicKeyResponse;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetSecretValueRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetSecretValueResponse;
 use Exception;
 
-class Client extends AlibabaCloudDkmsGcsOpenApiClient {
-    public function __construct($config){
+class Client extends AlibabaCloudDkmsGcsOpenApiClient
+{
+    public function __construct($config)
+    {
         parent::__construct($config);
     }
 
@@ -37,7 +41,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return EncryptResponse
      * @throws Exception
      */
-    public function encryptWithOptions($request, $runtime){
+    public function encryptWithOptions($request, $runtime)
+    {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedEncryptRequest($reqBody);
@@ -60,7 +65,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return EncryptResponse
      * @throws Exception
      */
-    public function encrypt($request){
+    public function encrypt($request)
+    {
         $runtime = new RuntimeOptions([]);
         return $this->encryptWithOptions($request, $runtime);
     }
@@ -71,7 +77,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return DecryptResponse
      * @throws Exception
      */
-    public function decryptWithOptions($request, $runtime){
+    public function decryptWithOptions($request, $runtime)
+    {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedDecryptRequest($reqBody);
@@ -93,7 +100,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return DecryptResponse
      * @throws Exception
      */
-    public function decrypt($request){
+    public function decrypt($request)
+    {
         $runtime = new RuntimeOptions([]);
         return $this->decryptWithOptions($request, $runtime);
     }
@@ -104,7 +112,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return HmacResponse
      * @throws Exception
      */
-    public function hmacWithOptions($request, $runtime){
+    public function hmacWithOptions($request, $runtime)
+    {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedHmacRequest($reqBody);
@@ -124,7 +133,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return HmacResponse
      * @throws Exception
      */
-    public function hmac($request){
+    public function hmac($request)
+    {
         $runtime = new RuntimeOptions([]);
         return $this->hmacWithOptions($request, $runtime);
     }
@@ -135,7 +145,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return SignResponse
      * @throws Exception
      */
-    public function signWithOptions($request, $runtime){
+    public function signWithOptions($request, $runtime)
+    {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedSignRequest($reqBody);
@@ -157,7 +168,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return SignResponse
      * @throws Exception
      */
-    public function sign($request){
+    public function sign($request)
+    {
         $runtime = new RuntimeOptions([]);
         return $this->signWithOptions($request, $runtime);
     }
@@ -168,7 +180,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return VerifyResponse
      * @throws Exception
      */
-    public function verifyWithOptions($request, $runtime){
+    public function verifyWithOptions($request, $runtime)
+    {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedVerifyRequest($reqBody);
@@ -190,7 +203,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return VerifyResponse
      * @throws Exception
      */
-    public function verify($request){
+    public function verify($request)
+    {
         $runtime = new RuntimeOptions([]);
         return $this->verifyWithOptions($request, $runtime);
     }
@@ -201,7 +215,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return GenerateRandomResponse
      * @throws Exception
      */
-    public function generateRandomWithOptions($request, $runtime){
+    public function generateRandomWithOptions($request, $runtime)
+    {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedGenerateRandomRequest($reqBody);
@@ -220,7 +235,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return GenerateRandomResponse
      * @throws Exception
      */
-    public function generateRandom($request){
+    public function generateRandom($request)
+    {
         $runtime = new RuntimeOptions([]);
         return $this->generateRandomWithOptions($request, $runtime);
     }
@@ -231,7 +247,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return GenerateDataKeyResponse
      * @throws Exception
      */
-    public function generateDataKeyWithOptions($request, $runtime){
+    public function generateDataKeyWithOptions($request, $runtime)
+    {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedGenerateDataKeyRequest($reqBody);
@@ -254,7 +271,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return GenerateDataKeyResponse
      * @throws Exception
      */
-    public function generateDataKey($request){
+    public function generateDataKey($request)
+    {
         $runtime = new RuntimeOptions([]);
         return $this->generateDataKeyWithOptions($request, $runtime);
     }
@@ -265,7 +283,8 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return GetPublicKeyResponse
      * @throws Exception
      */
-    public function getPublicKeyWithOptions($request, $runtime){
+    public function getPublicKeyWithOptions($request, $runtime)
+    {
         Utils::validateModel($request);
         $reqBody = Utils::toMap($request);
         $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedGetPublicKeyRequest($reqBody);
@@ -285,8 +304,52 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient {
      * @return GetPublicKeyResponse
      * @throws Exception
      */
-    public function getPublicKey($request){
+    public function getPublicKey($request)
+    {
         $runtime = new RuntimeOptions([]);
         return $this->getPublicKeyWithOptions($request, $runtime);
+    }
+
+    /**
+     * @param GetSecretValueRequest $request
+     * @param RuntimeOptions $runtime
+     * @return GetSecretValueResponse
+     * @throws Exception
+     */
+    public function getSecretValueWithOptions($request, $runtime)
+    {
+        Utils::validateModel($request);
+        $reqBody = Utils::toMap($request);
+        $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedGetSecretValueRequest($reqBody);
+        $response = $this->doRequest("GetSecretValue", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime);
+        $respBody = Utils::assertAsArray(@$response["body"]);
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseGetSecretValueResponse($respBody);
+        return GetSecretValueResponse::fromMap([
+            "Headers" => @$response["headers"],
+            "RequestId" => @$respMap["RequestId"],
+            "SecretName" => @$respMap["SecretName"],
+            "SecretType" => @$respMap["SecretType"],
+            "SecretData" => @$respMap["SecretData"],
+            "SecretDataType" => @$respMap["SecretDataType"],
+            "VersionStages" => @$respMap["VersionStages"],
+            "VersionId" => @$respMap["VersionId"],
+            "CreateTime" => @$respMap["CreateTime"],
+            "LastRotationDate" => @$respMap["LastRotationDate"],
+            "NextRotationDate" => @$respMap["NextRotationDate"],
+            "ExtendedConfig" => @$respMap["ExtendedConfig"],
+            "AutomaticRotation" => @$respMap["AutomaticRotation"],
+            "RotationInterval" => @$respMap["RotationInterval"]
+        ]);
+    }
+
+    /**
+     * @param GetSecretValueRequest $request
+     * @return GetSecretValueResponse
+     * @throws Exception
+     */
+    public function getSecretValue($request)
+    {
+        $runtime = new RuntimeOptions([]);
+        return $this->getSecretValueWithOptions($request, $runtime);
     }
 }
