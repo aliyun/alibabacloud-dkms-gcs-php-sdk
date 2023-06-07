@@ -26,6 +26,12 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetPublicKeyRequest;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetPublicKeyResponse;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetSecretValueRequest;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetSecretValueResponse;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceEncryptRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceEncryptResponse;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceDecryptRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceDecryptResponse;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceGenerateDataKeyRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceGenerateDataKeyResponse;
 use Exception;
 
 class Client extends AlibabaCloudDkmsGcsOpenApiClient
@@ -351,5 +357,106 @@ class Client extends AlibabaCloudDkmsGcsOpenApiClient
     {
         $runtime = new RuntimeOptions([]);
         return $this->getSecretValueWithOptions($request, $runtime);
+    }
+
+    /**
+     * @param AdvanceEncryptRequest $request
+     * @return AdvanceEncryptResponse
+     * @throws Exception
+     */
+    public function advanceEncrypt($request){
+        $runtime = new RuntimeOptions([]);
+        return $this->advanceEncryptWithOptions($request, $runtime);
+    }
+
+    /**
+     * @param AdvanceEncryptRequest $request
+     * @param RuntimeOptions $runtime
+     * @return AdvanceEncryptResponse
+     * @throws Exception
+     */
+    public function advanceEncryptWithOptions($request, $runtime){
+        Utils::validateModel($request);
+        $reqBody = Utils::toMap($request);
+        $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedAdvanceEncryptRequest($reqBody);
+        $responseEntity = Utils::assertAsMap($this->doRequest("AdvanceEncrypt", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime));
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseAdvanceEncryptResponse(Utils::assertAsArray(@$responseEntity["body"]));
+        return AdvanceEncryptResponse::fromMap([
+            "KeyId" => @$respMap["KeyId"],
+            "CiphertextBlob" => @$respMap["CiphertextBlob"],
+            "Iv" => @$respMap["Iv"],
+            "RequestId" => @$respMap["RequestId"],
+            "Algorithm" => @$respMap["Algorithm"],
+            "PaddingMode" => @$respMap["PaddingMode"],
+            "KeyVersionId" => @$respMap["KeyVersionId"],
+            "Headers" => @$responseEntity["headers"]
+        ]);
+    }
+
+    /**
+     * @param AdvanceDecryptRequest $request
+     * @return AdvanceDecryptResponse
+     * @throws Exception
+     */
+    public function advanceDecrypt($request){
+        $runtime = new RuntimeOptions([]);
+        return $this->advanceDecryptWithOptions($request, $runtime);
+    }
+
+    /**
+     * @param AdvanceDecryptRequest $request
+     * @param RuntimeOptions $runtime
+     * @return AdvanceDecryptResponse
+     * @throws Exception
+     */
+    public function advanceDecryptWithOptions($request, $runtime){
+        Utils::validateModel($request);
+        $reqBody = Utils::toMap($request);
+        $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedAdvanceDecryptRequest($reqBody);
+        $responseEntity = Utils::assertAsMap($this->doRequest("AdvanceDecrypt", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime));
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseAdvanceDecryptResponse(Utils::assertAsArray(@$responseEntity["body"]));
+        return AdvanceDecryptResponse::fromMap([
+            "KeyId" => @$respMap["KeyId"],
+            "Plaintext" => @$respMap["Plaintext"],
+            "RequestId" => @$respMap["RequestId"],
+            "Algorithm" => @$respMap["Algorithm"],
+            "PaddingMode" => @$respMap["PaddingMode"],
+            "KeyVersionId" => @$respMap["KeyVersionId"],
+            "Headers" => @$responseEntity["headers"]
+        ]);
+    }
+
+    /**
+     * @param AdvanceGenerateDataKeyRequest $request
+     * @return AdvanceGenerateDataKeyResponse
+     * @throws Exception
+     */
+    public function advanceGenerateDataKey($request){
+        $runtime = new RuntimeOptions([]);
+        return $this->advanceGenerateDataKeyWithOptions($request, $runtime);
+    }
+
+    /**
+     * @param AdvanceGenerateDataKeyRequest $request
+     * @param RuntimeOptions $runtime
+     * @return AdvanceGenerateDataKeyResponse
+     * @throws Exception
+     */
+    public function advanceGenerateDataKeyWithOptions($request, $runtime){
+        Utils::validateModel($request);
+        $reqBody = Utils::toMap($request);
+        $reqBodyBytes = AlibabaCloudDkmsGcsOpenApiUtilClient::getSerializedAdvanceGenerateDataKeyRequest($reqBody);
+        $responseEntity = Utils::assertAsMap($this->doRequest("AdvanceGenerateDataKey", "dkms-gcs-0.2", "https", "POST", "RSA_PKCS1_SHA_256", $reqBodyBytes, $request->headers, $runtime));
+        $respMap = AlibabaCloudDkmsGcsOpenApiUtilClient::parseAdvanceGenerateDataKeyResponse(Utils::assertAsArray(@$responseEntity["body"]));
+        return AdvanceGenerateDataKeyResponse::fromMap([
+            "KeyId" => @$respMap["KeyId"],
+            "Iv" => @$respMap["Iv"],
+            "Plaintext" => @$respMap["Plaintext"],
+            "CiphertextBlob" => @$respMap["CiphertextBlob"],
+            "RequestId" => @$respMap["RequestId"],
+            "Algorithm" => @$respMap["Algorithm"],
+            "KeyVersionId" => @$respMap["KeyVersionId"],
+            "Headers" => @$responseEntity["headers"]
+        ]);
     }
 }

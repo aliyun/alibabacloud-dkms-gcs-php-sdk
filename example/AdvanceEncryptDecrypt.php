@@ -4,18 +4,15 @@ if (is_file(__DIR__ . '/../autoload.php')) {
     require_once __DIR__ . '/../autoload.php';
 }
 
+use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
 use AlibabaCloud\Dkms\Gcs\OpenApi\Util\Models\RuntimeOptions;
 use AlibabaCloud\Dkms\Gcs\Sdk\Client as AlibabaCloudDkmsGcsSdkClient;
-use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
-use AlibabaCloud\Dkms\Gcs\Sdk\Models\DecryptRequest;
-use AlibabaCloud\Dkms\Gcs\Sdk\Models\EncryptRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceDecryptRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceEncryptRequest;
 use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
 
 // 填写您在KMS应用管理获取的ClientKey文件路径
-// $clientKeyFile = '<your client key file path>';
-
-// 或者，填写您在KMS应用管理获取的ClientKey文件内容
-$clientKeyContent = '<your client key content>';
+$clientKeyFile = '<your client key file path>';
 
 // 填写您在KMS应用管理创建ClientKey时输入的加密口令
 $password = getenv('CLIENT_KEY_PASSWORD');
@@ -23,37 +20,37 @@ $password = getenv('CLIENT_KEY_PASSWORD');
 // 填写您的专属KMS实例服务地址
 $endpoint = '<your dkms instance service address>';
 
-// 填写您在KMS创建的非对称主密钥Id
-$keyId = '<your asymmetric cmk id>';
+// 填写您在KMS创建的主密钥Id
+$keyId = '<your cmk id>';
 
 // 加解密算法
 $algorithm = '<your encrypt algorithm>';
 
 // 待加密明文
-$plaintext = 'encrypt plaintext';
+$plaintext = 'encrypt and decrypt sample';
 
 // 专属KMS SDK Client对象
 $client = getDkmsGcsSdkClient();
 if (is_null($client)) exit(1);
 
-//使用专属KMS进行非对称密钥加解密示例
-asymmetricEncryptDecryptSample();
+//使用加密服务实例进行高级加解密示例
+advanceEncryptDecryptSample();
 
 /**
- * 使用加密服务实例进行加解密示例
+ * 使用加密服务实例进行高级加解密示例
  * @return void
  */
-function asymmetricEncryptDecryptSample()
+function advanceEncryptDecryptSample()
 {
     global $client, $keyId, $plaintext, $algorithm;
 
-    $cipherCtx = asymmetricEncryptSample($client, $keyId, $plaintext, $algorithm);
+    $cipherCtx = advanceEncryptSample($client, $keyId, $plaintext, $algorithm);
     if ($cipherCtx !== null) {
-        $decryptResult = AlibabaCloudTeaUtils::toString(asymmetricDecryptSample($client, $cipherCtx));
+        $decryptResult = AlibabaCloudTeaUtils::toString(advanceDecryptSample($client, $cipherCtx));
         if ($plaintext !== $decryptResult) {
             echo 'decrypt result not match the plaintext' . PHP_EOL;
         } else {
-            echo 'asymmetricEncryptDecryptSample success' . PHP_EOL;
+            echo 'advanceEncryptDecryptSample success' . PHP_EOL;
         }
     }
 }
@@ -64,12 +61,12 @@ function asymmetricEncryptDecryptSample()
  * @param string $keyId
  * @param string $plaintext
  * @param string $algorithm
- * @return AsymmetricEncryptContext
+ * @return AdvanceEncryptContext
  */
-function asymmetricEncryptSample($client, $keyId, $plaintext, $algorithm)
+function advanceEncryptSample($client, $keyId, $plaintext, $algorithm)
 {
     // 构建加密请求
-    $encryptRequest = new EncryptRequest();
+    $encryptRequest = new AdvanceEncryptRequest();
     $encryptRequest->keyId = $keyId;
     $encryptRequest->algorithm = $algorithm;
     $encryptRequest->plaintext = AlibabaCloudTeaUtils::toBytes($plaintext);
@@ -81,16 +78,19 @@ function asymmetricEncryptSample($client, $keyId, $plaintext, $algorithm)
 
     try {
         // 调用加密接口进行加密
-        $encryptResponse = $client->encryptWithOptions($encryptRequest, $runtimeOptions);
+        $encryptResponse = $client->advanceEncryptWithOptions($encryptRequest, $runtimeOptions);
         // 密钥ID
         $keyId = $encryptResponse->keyId;
+        // 主密钥是对称密钥时，decrypt接口需要加密返回的Iv
+        $iv = $encryptResponse->iv;
         // 数据密文
         $cipher = $encryptResponse->ciphertextBlob;
         // 加密算法
         $algorithm = $encryptResponse->algorithm;
         var_dump($encryptResponse->toMap());
-        return new AsymmetricEncryptContext([
+        return new AdvanceEncryptContext([
             'keyId' => $keyId,
+            'iv' => $iv,
             'ciphertextBlob' => $cipher,
             'algorithm' => $algorithm
         ]);
@@ -107,16 +107,17 @@ function asymmetricEncryptSample($client, $keyId, $plaintext, $algorithm)
 /**
  * 解密示例
  * @param AlibabaCloudDkmsGcsSdkClient $client
- * @param AsymmetricEncryptContext $ctx
+ * @param AdvanceEncryptContext $ctx
  * @return int[]|null
  */
-function asymmetricDecryptSample($client, $ctx)
+function advanceDecryptSample($client, $ctx)
 {
     // 构建解密请求对象
-    $decryptRequest = new DecryptRequest();
+    $decryptRequest = new AdvanceDecryptRequest();
     $decryptRequest->keyId = $ctx->keyId;
     $decryptRequest->ciphertextBlob = $ctx->ciphertextBlob;
     $decryptRequest->algorithm = $ctx->algorithm;
+    $decryptRequest->iv = $ctx->iv;
     $runtimeOptions = new RuntimeOptions();
     // 验证服务端证书
     $runtimeOptions->verify = 'path/to/caCert.pem';
@@ -125,7 +126,7 @@ function asymmetricDecryptSample($client, $ctx)
 
     try {
         // 调用解密接口进行解密
-        $decryptResponse = $client->decryptWithOptions($decryptRequest, $runtimeOptions);
+        $decryptResponse = $client->advanceDecryptWithOptions($decryptRequest, $runtimeOptions);
         var_dump($decryptResponse->toMap());
         return $decryptResponse->plaintext;
     } catch (Exception $error) {
@@ -144,12 +145,12 @@ function asymmetricDecryptSample($client, $ctx)
  */
 function getDkmsGcsSdkClient()
 {
-    global $clientKeyContent, $password, $endpoint;
+    global $clientKeyFile, $password, $endpoint;
 
     // 构建专属KMS SDK Client配置
     $config = new AlibabaCloudDkmsGcsOpenApiConfig();
     $config->protocol = 'https';
-    $config->clientKeyContent = $clientKeyContent;
+    $config->clientKeyFile = $clientKeyFile;
     $config->password = $password;
     $config->endpoint = $endpoint;
 
@@ -157,10 +158,9 @@ function getDkmsGcsSdkClient()
     return new AlibabaCloudDkmsGcsSdkClient($config);
 }
 
-/**
- * The asymmetric encrypt context may be stored
- */
-class AsymmetricEncryptContext {
+// The advance encrypt context may be stored
+class AdvanceEncryptContext
+{
     public function __construct($config = [])
     {
         if (!empty($config)) {
@@ -173,6 +173,11 @@ class AsymmetricEncryptContext {
      * @var string
      */
     public $keyId;
+
+    /**
+     * @var int[]
+     */
+    public $iv;
 
     /**
      * @var int[]

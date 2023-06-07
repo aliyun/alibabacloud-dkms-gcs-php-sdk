@@ -47,6 +47,7 @@ use AlibabaCloud\Dkms\Gcs\OpenApi\Util\Models\RuntimeOptions;
 use AlibabaCloud\Dkms\Gcs\Sdk\Client as AlibabaCloudDkmsGcsSdkClient;
 use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\EncryptRequest;
+use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
 
 // 1.Create DKMS SDK client config
 $config = new AlibabaCloudDkmsGcsOpenApiConfig();
@@ -68,7 +69,7 @@ $runtimeOptions->ignoreSSL = true;
 // 4.Create an API request and set parameters
 $encryptRequest = new EncryptRequest();
 $encryptRequest->keyId = '<your cmk id>';
-$encryptRequest->plaintext = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toBytes('encrypt plaintext');
+$encryptRequest->plaintext = AlibabaCloudTeaUtils::toBytes('encrypt plaintext');
 
 // 5.Initiate the request and handle the response or exceptions
 try {
