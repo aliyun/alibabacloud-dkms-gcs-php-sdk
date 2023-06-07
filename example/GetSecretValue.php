@@ -16,7 +16,7 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Models\GetSecretValueRequest;
 $clientKeyContent = '<your client key content>';
 
 // 填写您在KMS应用管理创建ClientKey时输入的加密口令
-$password = '<your client key password>';
+$password = getenv('CLIENT_KEY_PASSWORD');
 
 // 填写您的专属KMS实例服务地址
 $endpoint = '<your dkms instance service address>';

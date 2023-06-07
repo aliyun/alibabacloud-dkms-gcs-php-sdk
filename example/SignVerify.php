@@ -9,6 +9,7 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Client as AlibabaCloudDkmsGcsSdkClient;
 use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\SignRequest;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\VerifyRequest;
+use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
 
 // 填写您在KMS应用管理获取的ClientKey文件路径
 // $clientKeyFile = '<your client key file path>';
@@ -17,7 +18,7 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Models\VerifyRequest;
 $clientKeyContent = '<your client key content>';
 
 // 填写您在KMS应用管理创建ClientKey时输入的加密口令
-$password = '<your client key password>';
+$password = getenv('CLIENT_KEY_PASSWORD');
 
 // 填写您的专属KMS实例服务地址
 $endpoint = '<your dkms instance service address>';
@@ -73,7 +74,7 @@ function signSample($client, $keyId, $message, $messageType, $algorithm) {
     $signRequest = new SignRequest();
     $signRequest->keyId = $keyId;
     $signRequest->algorithm = $algorithm;
-    $signRequest->message = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toBytes($message);
+    $signRequest->message = AlibabaCloudTeaUtils::toBytes($message);
     $signRequest->messageType = $messageType;
     $runtimeOptions = new RuntimeOptions();
     // 验证服务端证书
@@ -121,7 +122,7 @@ function verifySample($client, $message, $ctx) {
     $verifyRequest = new VerifyRequest();
     $verifyRequest->keyId = $ctx->keyId;
     $verifyRequest->signature = $ctx->signature;
-    $verifyRequest->message = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toBytes($message);
+    $verifyRequest->message = AlibabaCloudTeaUtils::toBytes($message);
     $verifyRequest->messageType = $ctx->messageType;
     $verifyRequest->algorithm = $ctx->algorithm;
     $runtimeOptions = new RuntimeOptions();

@@ -3,8 +3,8 @@
 namespace AlibabaCloud\Dkms\Gcs\OpenApi\Util;
 
 use AlibabaCloud\Tea\Request;
-use \Exception;
 use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
+use Exception;
 use Google\Protobuf\Value;
 
 class Utils
@@ -68,8 +68,8 @@ class Utils
         if (AlibabaCloudTeaUtils::isUnset($constraint)) {
             return $tmp;
         }
-        foreach ($constraint as $key) {
-            if (isset($headers[$key])) {
+        foreach ($headers as $key) {
+            if (isset($constraint[$key])) {
                 $tmp[$key] = $headers[$key];
             }
         }
@@ -100,7 +100,7 @@ class Utils
     public static function getErrMessage($msg)
     {
         $err = new Protobuf\Error();
-        $err->mergeFromString(self::toString($msg));
+        $err->mergeFromString(AlibabaCloudTeaUtils::toString($msg));
         return [
             'RequestId' => $err->getRequestId(),
             'Code' => $err->getErrorCode(),
@@ -176,7 +176,7 @@ class Utils
      */
     public static function getContentSHA256($reqBody)
     {
-        return strtoupper(hash('sha256', self::toString($reqBody), false));
+        return strtoupper(hash('sha256', AlibabaCloudTeaUtils::toString($reqBody), false));
     }
 
     /**
@@ -190,21 +190,21 @@ class Utils
             $request->setKeyId($reqBody['KeyId']);
         }
         if (isset($reqBody['Plaintext'])) {
-            $request->setPlaintext(self::toString($reqBody['Plaintext']));
+            $request->setPlaintext(AlibabaCloudTeaUtils::toString($reqBody['Plaintext']));
         }
         if (isset($reqBody['Algorithm'])) {
             $request->setAlgorithm($reqBody['Algorithm']);
         }
         if (isset($reqBody['Iv'])) {
-            $request->setIv(self::toString($reqBody['Iv']));
+            $request->setIv(AlibabaCloudTeaUtils::toString($reqBody['Iv']));
         }
         if (isset($reqBody['Aad'])) {
-            $request->setAad(self::toString($reqBody['Aad']));
+            $request->setAad(AlibabaCloudTeaUtils::toString($reqBody['Aad']));
         }
         if (isset($reqBody['PaddingMode'])) {
             $request->setPaddingMode($reqBody['PaddingMode']);
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -215,11 +215,11 @@ class Utils
     public static function parseEncryptResponse($resBody)
     {
         $response = new Protobuf\EncryptResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
-            'CiphertextBlob' => self::toBytes($response->getCiphertextBlob()),
-            'Iv' => self::toBytes($response->getIv()),
+            'CiphertextBlob' => AlibabaCloudTeaUtils::toBytes($response->getCiphertextBlob()),
+            'Iv' => AlibabaCloudTeaUtils::toBytes($response->getIv()),
             'Algorithm' => $response->getAlgorithm(),
             'PaddingMode' => $response->getPaddingMode(),
             'RequestId' => $response->getRequestId()
@@ -237,21 +237,21 @@ class Utils
             $request->setKeyId($reqBody['KeyId']);
         }
         if (isset($reqBody['CiphertextBlob'])) {
-            $request->setCiphertextBlob(self::toString($reqBody['CiphertextBlob']));
+            $request->setCiphertextBlob(AlibabaCloudTeaUtils::toString($reqBody['CiphertextBlob']));
         }
         if (isset($reqBody['Algorithm'])) {
             $request->setAlgorithm($reqBody['Algorithm']);
         }
         if (isset($reqBody['Aad'])) {
-            $request->setAad(self::toString($reqBody['Aad']));
+            $request->setAad(AlibabaCloudTeaUtils::toString($reqBody['Aad']));
         }
         if (isset($reqBody['Iv'])) {
-            $request->setIv(self::toString($reqBody['Iv']));
+            $request->setIv(AlibabaCloudTeaUtils::toString($reqBody['Iv']));
         }
         if (isset($reqBody['PaddingMode'])) {
             $request->setPaddingMode($reqBody['PaddingMode']);
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -262,10 +262,10 @@ class Utils
     public static function parseDecryptResponse($resBody)
     {
         $response = new Protobuf\DecryptResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
-            'Plaintext' => self::toBytes($response->getPlaintext()),
+            'Plaintext' => AlibabaCloudTeaUtils::toBytes($response->getPlaintext()),
             'Algorithm' => $response->getAlgorithm(),
             'PaddingMode' => $response->getPaddingMode(),
             'RequestId' => $response->getRequestId()
@@ -283,9 +283,9 @@ class Utils
             $request->setKeyId($reqBody['KeyId']);
         }
         if (isset($reqBody['Message'])) {
-            $request->setMessage(self::toString($reqBody['Message']));
+            $request->setMessage(AlibabaCloudTeaUtils::toString($reqBody['Message']));
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -296,10 +296,10 @@ class Utils
     public static function parseHmacResponse($resBody)
     {
         $response = new Protobuf\HmacResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
-            'Signature' => self::toBytes($response->getSignature()),
+            'Signature' => AlibabaCloudTeaUtils::toBytes($response->getSignature()),
             'RequestId' => $response->getRequestId()
         ];
     }
@@ -318,12 +318,12 @@ class Utils
             $request->setAlgorithm($reqBody['Algorithm']);
         }
         if (isset($reqBody['Message'])) {
-            $request->setMessage(self::toString($reqBody['Message']));
+            $request->setMessage(AlibabaCloudTeaUtils::toString($reqBody['Message']));
         }
         if (isset($reqBody['MessageType'])) {
             $request->setMessageType($reqBody['MessageType']);
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -334,10 +334,10 @@ class Utils
     public static function parseSignResponse($resBody)
     {
         $response = new Protobuf\SignResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
-            'Signature' => self::toBytes($response->getSignature()),
+            'Signature' => AlibabaCloudTeaUtils::toBytes($response->getSignature()),
             'Algorithm' => $response->getAlgorithm(),
             'MessageType' => $response->getMessageType(),
             'RequestId' => $response->getRequestId()
@@ -358,15 +358,15 @@ class Utils
             $request->setAlgorithm($reqBody['Algorithm']);
         }
         if (isset($reqBody['Signature'])) {
-            $request->setSignature(self::toString($reqBody['Signature']));
+            $request->setSignature(AlibabaCloudTeaUtils::toString($reqBody['Signature']));
         }
         if (isset($reqBody['Message'])) {
-            $request->setMessage(self::toString($reqBody['Message']));
+            $request->setMessage(AlibabaCloudTeaUtils::toString($reqBody['Message']));
         }
         if (isset($reqBody['MessageType'])) {
             $request->setMessageType($reqBody['MessageType']);
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -377,7 +377,7 @@ class Utils
     public static function parseVerifyResponse($resBody)
     {
         $response = new Protobuf\VerifyResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
             'Value' => $response->getValue(),
@@ -397,7 +397,7 @@ class Utils
         if (isset($reqBody['Length'])) {
             $request->setLength($reqBody['Length']);
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -408,9 +408,9 @@ class Utils
     public static function parseGenerateRandomResponse($resBody)
     {
         $response = new Protobuf\GenerateRandomResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
-            'Random' => self::toBytes($response->getRandom()),
+            'Random' => AlibabaCloudTeaUtils::toBytes($response->getRandom()),
             'RequestId' => $response->getRequestId()
         ];
     }
@@ -432,9 +432,9 @@ class Utils
             $request->setNumberOfBytes($reqBody['NumberOfBytes']);
         }
         if (isset($reqBody['Aad'])) {
-            $request->setAad(self::toString($reqBody['Aad']));
+            $request->setAad(AlibabaCloudTeaUtils::toString($reqBody['Aad']));
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -445,12 +445,12 @@ class Utils
     public static function parseGenerateDataKeyResponse($resBody)
     {
         $response = new Protobuf\GenerateDataKeyResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
-            'Iv' => self::toBytes($response->getIv()),
-            'Plaintext' => self::toBytes($response->getPlaintext()),
-            'CiphertextBlob' => self::toBytes($response->getCiphertextBlob()),
+            'Iv' => AlibabaCloudTeaUtils::toBytes($response->getIv()),
+            'Plaintext' => AlibabaCloudTeaUtils::toBytes($response->getPlaintext()),
+            'CiphertextBlob' => AlibabaCloudTeaUtils::toBytes($response->getCiphertextBlob()),
             'Algorithm' => $response->getAlgorithm(),
             'RequestId' => $response->getRequestId()
         ];
@@ -467,9 +467,9 @@ class Utils
             $request->setAlgorithm($reqBody['Algorithm']);
         }
         if (isset($reqBody['Message'])) {
-            $request->setMessage(self::toString($reqBody['Message']));
+            $request->setMessage(AlibabaCloudTeaUtils::toString($reqBody['Message']));
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -480,9 +480,9 @@ class Utils
     public static function parseHashResponse($resBody)
     {
         $response = new Protobuf\HashResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
-            'Digest' => self::toBytes($response->getDigest()),
+            'Digest' => AlibabaCloudTeaUtils::toBytes($response->getDigest()),
             'RequestId' => $response->getRequestId()
         ];
     }
@@ -495,15 +495,15 @@ class Utils
     {
         $request = new Protobuf\KmsEncryptRequest();
         if (isset($reqBody['Plaintext'])) {
-            $request->setPlaintext(self::toString($reqBody['Plaintext']));
+            $request->setPlaintext(AlibabaCloudTeaUtils::toString($reqBody['Plaintext']));
         }
         if (isset($reqBody['KeyId'])) {
             $request->setKeyId($reqBody['KeyId']);
         }
         if (isset($reqBody['Aad'])) {
-            $request->setAad(self::toString($reqBody['Aad']));
+            $request->setAad(AlibabaCloudTeaUtils::toString($reqBody['Aad']));
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -514,10 +514,10 @@ class Utils
     public static function parseKmsEncryptResponse($resBody)
     {
         $response = new Protobuf\KmsEncryptResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
-            'CiphertextBlob' => self::toBytes($response->getCiphertextBlob()),
+            'CiphertextBlob' => AlibabaCloudTeaUtils::toBytes($response->getCiphertextBlob()),
             'RequestId' => $response->getRequestId()
         ];
     }
@@ -530,12 +530,12 @@ class Utils
     {
         $request = new Protobuf\KmsDecryptRequest();
         if (isset($reqBody['CiphertextBlob'])) {
-            $request->setCiphertextBlob(self::toString($reqBody['CiphertextBlob']));
+            $request->setCiphertextBlob(AlibabaCloudTeaUtils::toString($reqBody['CiphertextBlob']));
         }
         if (isset($reqBody['Aad'])) {
-            $request->setAad(self::toString($reqBody['Aad']));
+            $request->setAad(AlibabaCloudTeaUtils::toString($reqBody['Aad']));
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -546,10 +546,10 @@ class Utils
     public static function parseKmsDecryptResponse($resBody)
     {
         $response = new Protobuf\KmsDecryptResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
-            'Plaintext' => self::toBytes($response->getPlaintext()),
+            'Plaintext' => AlibabaCloudTeaUtils::toBytes($response->getPlaintext()),
             'RequestId' => $response->getRequestId()
         ];
     }
@@ -564,7 +564,7 @@ class Utils
         if (isset($reqBody['KeyId'])) {
             $request->setKeyId($reqBody['KeyId']);
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -575,7 +575,7 @@ class Utils
     public static function parseGetPublicKeyResponse($resBody)
     {
         $response = new Protobuf\GetPublicKeyResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         return [
             'KeyId' => $response->getKeyId(),
             'PublicKey' => $response->getPublicKey(),
@@ -602,7 +602,7 @@ class Utils
         if (isset($reqBody['FetchExtendedConfig'])) {
             $request->setFetchExtendedConfig($reqBody['FetchExtendedConfig']);
         }
-        return self::toBytes($request->serializeToString());
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
     }
 
     /**
@@ -613,7 +613,7 @@ class Utils
     public static function parseGetSecretValueResponse($resBody)
     {
         $response = new Protobuf\GetSecretValueResponse();
-        $response->mergeFromString(self::toString($resBody));
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
         $tmp = $response->getVersionStages();
         $versionStages = [];
         foreach ($tmp as $key) {
@@ -633,6 +633,137 @@ class Utils
             'ExtendedConfig' => $response->getExtendedConfig(),
             'AutomaticRotation' => $response->getAutomaticRotation(),
             'RotationInterval' => $response->getRotationInterval(),
+        ];
+    }
+
+    /**
+     * @param mixed[] $reqBody
+     * @return array
+     */
+    public static function getSerializedAdvanceEncryptRequest($reqBody)
+    {
+        $request = new Protobuf\AdvanceEncryptRequest();
+        if (isset($reqBody['KeyId'])) {
+            $request->setKeyId($reqBody['KeyId']);
+        }
+        if (isset($reqBody['Plaintext'])) {
+            $request->setPlaintext(AlibabaCloudTeaUtils::toString($reqBody['Plaintext']));
+        }
+        if (isset($reqBody['Algorithm'])) {
+            $request->setAlgorithm($reqBody['Algorithm']);
+        }
+        if (isset($reqBody['Iv'])) {
+            $request->setIv(AlibabaCloudTeaUtils::toString($reqBody['Iv']));
+        }
+        if (isset($reqBody['Aad'])) {
+            $request->setAad(AlibabaCloudTeaUtils::toString($reqBody['Aad']));
+        }
+        if (isset($reqBody['PaddingMode'])) {
+            $request->setPaddingMode($reqBody['PaddingMode']);
+        }
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
+    }
+
+    /**
+     * @param int[] $resBody
+     * @return array
+     */
+    public static function parseAdvanceEncryptResponse($resBody)
+    {
+        $response = new Protobuf\AdvanceEncryptResponse();
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
+        return [
+            'KeyId' => $response->getKeyId(),
+            'CiphertextBlob' => AlibabaCloudTeaUtils::toBytes($response->getCiphertextBlob()),
+            'Iv' => AlibabaCloudTeaUtils::toBytes($response->getIv()),
+            'Algorithm' => $response->getAlgorithm(),
+            'PaddingMode' => $response->getPaddingMode(),
+            'KeyVersionId' => $response->getKeyVersionId(),
+            'RequestId' => $response->getRequestId()
+        ];
+    }
+
+    /**
+     * @param mixed[] $reqBody
+     * @return array
+     */
+    public static function getSerializedAdvanceDecryptRequest($reqBody)
+    {
+        $request = new Protobuf\AdvanceDecryptRequest();
+        if (isset($reqBody['KeyId'])) {
+            $request->setKeyId($reqBody['KeyId']);
+        }
+        if (isset($reqBody['CiphertextBlob'])) {
+            $request->setCiphertextBlob(AlibabaCloudTeaUtils::toString($reqBody['CiphertextBlob']));
+        }
+        if (isset($reqBody['Algorithm'])) {
+            $request->setAlgorithm($reqBody['Algorithm']);
+        }
+        if (isset($reqBody['Aad'])) {
+            $request->setAad(AlibabaCloudTeaUtils::toString($reqBody['Aad']));
+        }
+        if (isset($reqBody['Iv'])) {
+            $request->setIv(AlibabaCloudTeaUtils::toString($reqBody['Iv']));
+        }
+        if (isset($reqBody['PaddingMode'])) {
+            $request->setPaddingMode($reqBody['PaddingMode']);
+        }
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
+    }
+
+    /**
+     * @param int[] $resBody
+     * @return array
+     */
+    public static function parseAdvanceDecryptResponse($resBody)
+    {
+        $response = new Protobuf\AdvanceDecryptResponse();
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
+        return [
+            'KeyId' => $response->getKeyId(),
+            'Plaintext' => AlibabaCloudTeaUtils::toBytes($response->getPlaintext()),
+            'Algorithm' => $response->getAlgorithm(),
+            'PaddingMode' => $response->getPaddingMode(),
+            'KeyVersionId' => $response->getKeyVersionId(),
+            'RequestId' => $response->getRequestId()
+        ];
+    }
+
+    /**
+     * @param mixed[] $reqBody
+     * @return array
+     */
+    public static function getSerializedAdvanceGenerateDataKeyRequest($reqBody)
+    {
+        $request = new Protobuf\AdvanceGenerateDataKeyRequest();
+        if (isset($reqBody['KeyId'])) {
+            $request->setKeyId($reqBody['KeyId']);
+        }
+        if (isset($reqBody['NumberOfBytes'])) {
+            $request->setNumberOfBytes($reqBody['NumberOfBytes']);
+        }
+        if (isset($reqBody['Aad'])) {
+            $request->setAad(AlibabaCloudTeaUtils::toString($reqBody['Aad']));
+        }
+        return AlibabaCloudTeaUtils::toBytes($request->serializeToString());
+    }
+
+    /**
+     * @param int[] $resBody
+     * @return array
+     */
+    public static function parseAdvanceGenerateDataKeyResponse($resBody)
+    {
+        $response = new Protobuf\AdvanceGenerateDataKeyResponse();
+        $response->mergeFromString(AlibabaCloudTeaUtils::toString($resBody));
+        return [
+            'KeyId' => $response->getKeyId(),
+            'Iv' => AlibabaCloudTeaUtils::toBytes($response->getIv()),
+            'Plaintext' => AlibabaCloudTeaUtils::toBytes($response->getPlaintext()),
+            'CiphertextBlob' => AlibabaCloudTeaUtils::toBytes($response->getCiphertextBlob()),
+            'Algorithm' => $response->getAlgorithm(),
+            'KeyVersionId' => $response->getKeyVersionId(),
+            'RequestId' => $response->getRequestId()
         ];
     }
 }

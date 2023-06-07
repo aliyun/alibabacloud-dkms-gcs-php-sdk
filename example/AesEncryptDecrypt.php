@@ -9,6 +9,7 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Client as AlibabaCloudDkmsGcsSdkClient;
 use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\DecryptRequest;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\EncryptRequest;
+use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
 
 /**
  * ClientKey传参支持以下三种方式：
@@ -45,7 +46,7 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Models\EncryptRequest;
 $clientKeyContent = '<your client key content>';
 
 // 填写您在KMS应用管理创建ClientKey时输入的加密口令
-$password = '<your client key password>';
+$password = getenv('CLIENT_KEY_PASSWORD');
 
 // 填写您的专属KMS实例服务地址
 $endpoint = '<your dkms instance service address>';
@@ -76,7 +77,7 @@ function aesEncryptDecryptSample()
 
     $cipherCtx = aesEncryptSample($client, $keyId, $plaintext, $algorithm);
     if ($cipherCtx !== null) {
-        $decryptResult = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toString(aesDecryptSample($client, $cipherCtx));
+        $decryptResult = AlibabaCloudTeaUtils::toString(aesDecryptSample($client, $cipherCtx));
         if ($plaintext !== $decryptResult) {
             echo 'decrypt result not match the plaintext' . PHP_EOL;
         } else {
@@ -99,7 +100,7 @@ function aesEncryptSample($client, $keyId, $plaintext, $algorithm)
     $encryptRequest = new EncryptRequest();
     $encryptRequest->keyId = $keyId;
     $encryptRequest->algorithm = $algorithm;
-    $encryptRequest->plaintext = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toBytes($plaintext);
+    $encryptRequest->plaintext = AlibabaCloudTeaUtils::toBytes($plaintext);
     $runtimeOptions = new RuntimeOptions();
     // 验证服务端证书
     $runtimeOptions->verify = 'path/to/caCert.pem';
