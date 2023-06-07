@@ -7,13 +7,10 @@ if (is_file(__DIR__ . '/../autoload.php')) {
 use AlibabaCloud\Dkms\Gcs\OpenApi\Util\Models\RuntimeOptions;
 use AlibabaCloud\Dkms\Gcs\Sdk\Client as AlibabaCloudDkmsGcsSdkClient;
 use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
-use AlibabaCloud\Dkms\Gcs\Sdk\Models\GenerateDataKeyRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceGenerateDataKeyRequest;
 
 // 填写您在KMS应用管理获取的ClientKey文件路径
-// $clientKeyFile = '<your client key file path>';
-
-// 或者，填写您在KMS应用管理获取的ClientKey文件内容
-$clientKeyContent = '<your client key content>';
+$clientKeyFile = '<your client key file path>';
 
 // 填写您在KMS应用管理创建ClientKey时输入的加密口令
 $password = getenv('CLIENT_KEY_PASSWORD');
@@ -21,8 +18,8 @@ $password = getenv('CLIENT_KEY_PASSWORD');
 // 填写您的专属KMS实例服务地址
 $endpoint = '<your dkms instance service address>';
 
-// 填写您在KMS创建的对称主密钥Id
-$keyId = '<your symmetric cmk id>';
+// 填写您在KMS创建的主密钥Id
+$keyId = '<your cmk id>';
 
 // 填写您要生成的数据密钥长度，示例:32
 $numberOfBytes = 32;
@@ -32,12 +29,12 @@ $client = getDkmsGcsSdkClient();
 if (is_null($client)) exit(1);
 
 //使用专属KMS获取数据密钥示例
-generateDataKeySample();
+advanceGenerateDataKeySample();
 
-function generateDataKeySample(){
+function advanceGenerateDataKeySample(){
     global $client, $keyId, $numberOfBytes;
 
-    $generateDataKeyRequest = new GenerateDataKeyRequest([
+    $generateDataKeyRequest = new AdvanceGenerateDataKeyRequest([
         'keyId' => $keyId,
         'numberOfBytes' => $numberOfBytes
     ]);
@@ -45,14 +42,14 @@ function generateDataKeySample(){
     $runtimeOptions = new RuntimeOptions([
         'verify' => 'path/to/caCert.pem',
     ]);
-    // 或者，忽略服务端证书
+    // 或者，忽略证书
     //$runtimeOptions = new RuntimeOptions([
     //    'ignoreSSL' => true,
     //]);
 
     try {
         // 调用生成数据密钥接口
-        $generateDataKeyResponse = $client->generateDataKeyWithOptions($generateDataKeyRequest, $runtimeOptions);
+        $generateDataKeyResponse = $client->advanceGenerateDataKeyWithOptions($generateDataKeyRequest, $runtimeOptions);
 
         // 明文数据密钥
         $plaintext = $generateDataKeyResponse->plaintext;
@@ -77,15 +74,16 @@ function generateDataKeySample(){
  */
 function getDkmsGcsSdkClient()
 {
-    global $clientKeyContent, $password, $endpoint;
+    global $clientKeyFile, $password, $endpoint;
 
     // 构建专属KMS SDK Client配置
     $config = new AlibabaCloudDkmsGcsOpenApiConfig();
     $config->protocol = 'https';
-    $config->clientKeyContent = $clientKeyContent;
+    $config->clientKeyFile = $clientKeyFile;
     $config->password = $password;
     $config->endpoint = $endpoint;
 
     // 构建专属KMS SDK Client对象
     return new AlibabaCloudDkmsGcsSdkClient($config);
 }
+

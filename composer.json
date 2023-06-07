@@ -4,8 +4,8 @@
     "type": "library",
     "require": {
         "php": ">=5.6",
-        "alibabacloud/tea": "^3.1",
-        "alibabacloud/tea-utils": "^0.2.14",
+        "alibabacloud/tea": "^3.2.1",
+        "alibabacloud/tea-utils": "^0.2.18",
         "ext-json": "*",
         "ext-openssl": "*",
         "google/protobuf": "^3.3"

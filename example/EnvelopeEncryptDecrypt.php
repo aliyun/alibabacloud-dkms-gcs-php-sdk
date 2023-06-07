@@ -9,6 +9,7 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Client as AlibabaCloudDkmsGcsSdkClient;
 use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\GenerateDataKeyRequest;
 use AlibabaCloud\Dkms\Gcs\Sdk\Models\DecryptRequest;
+use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
 
 // 填写您在KMS应用管理获取的ClientKey文件路径
 // $clientKeyFile = '<your client key file path>';
@@ -17,7 +18,7 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Models\DecryptRequest;
 $clientKeyContent = '<your client key content>';
 
 // 填写您在KMS应用管理创建ClientKey时输入的加密口令
-$password = '<your client key password>';
+$password = getenv('CLIENT_KEY_PASSWORD');
 
 // 填写您的专属KMS实例服务地址
 $endpoint = '<your dkms instance service address>';
@@ -98,7 +99,7 @@ function envelopeEncryptSample($client, $keyId, $data)
     // 使用专属KMS返回的数据密钥明文在本地对数据进行加密，下面以AES-256 GCM模式为例
     $iv_len = openssl_cipher_iv_length('aes-256-gcm');
     $iv = openssl_random_pseudo_bytes($iv_len);
-    $key = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toString($plainDataKey);
+    $key = AlibabaCloudTeaUtils::toString($plainDataKey);
     $ciphertext_raw = openssl_encrypt($data, 'aes-256-gcm', $key, OPENSSL_RAW_DATA, $iv, $tag);
     if (false === $ciphertext_raw) {
         echo 'openssl_encrypt failed';
@@ -173,7 +174,7 @@ function envelopeDecryptSample($client, $keyId, $envelopeCipherText)
     $cipherText = $envelopeCipherText->cipherText;
     $ciphertext_raw = substr($cipherText,0, -16);
     $tag = substr($cipherText, -16);
-    $key = \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Utils::toString($plainDataKey);
+    $key = AlibabaCloudTeaUtils::toString($plainDataKey);
     $original_plaintext = openssl_decrypt($ciphertext_raw, 'aes-256-gcm', $key, OPENSSL_RAW_DATA, $iv, $tag);
     if (false === $original_plaintext){
         echo 'openssl_decrypt failed';

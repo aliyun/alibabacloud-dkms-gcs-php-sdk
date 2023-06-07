@@ -17,7 +17,7 @@ use AlibabaCloud\Dkms\Gcs\Sdk\Models\VerifyRequest;
 $config = new Config();
 $config->protocol = 'https';
 $config->clientKeyContent = '';
-$config->password = '';
+$config->password = getenv('CLIENT_KEY_PASSWORD');
 $config->endpoint = '';
 
 $client = new AlibabaCloudDkmsGcsSdkClient($config);

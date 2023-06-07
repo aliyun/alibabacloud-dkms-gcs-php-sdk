@@ -293,4 +293,58 @@ class Client
     {
         return Utils::parseGetSecretValueResponse($resBody);
     }
+
+    /**
+     * @param mixed[] $reqBody
+     * @return array
+     */
+    public static function getSerializedAdvanceEncryptRequest($reqBody)
+    {
+        return Utils::getSerializedAdvanceEncryptRequest($reqBody);
+    }
+
+    /**
+     * @param int[] $resBody
+     * @return array
+     */
+    public static function parseAdvanceEncryptResponse($resBody)
+    {
+        return Utils::parseAdvanceEncryptResponse($resBody);
+    }
+
+    /**
+     * @param mixed[] $reqBody
+     * @return array
+     */
+    public static function getSerializedAdvanceDecryptRequest($reqBody)
+    {
+        return Utils::getSerializedAdvanceDecryptRequest($reqBody);
+    }
+
+    /**
+     * @param int[] $resBody
+     * @return array
+     */
+    public static function parseAdvanceDecryptResponse($resBody)
+    {
+        return Utils::parseAdvanceDecryptResponse($resBody);
+    }
+
+    /**
+     * @param mixed[] $reqBody
+     * @return array
+     */
+    public static function getSerializedAdvanceGenerateDataKeyRequest($reqBody)
+    {
+        return Utils::getSerializedAdvanceGenerateDataKeyRequest($reqBody);
+    }
+
+    /**
+     * @param int[] $resBody
+     * @return array
+     */
+    public static function parseAdvanceGenerateDataKeyResponse($resBody)
+    {
+        return Utils::parseAdvanceGenerateDataKeyResponse($resBody);
+    }
 }
