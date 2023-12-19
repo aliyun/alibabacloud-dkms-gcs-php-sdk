@@ -7,7 +7,6 @@ use AlibabaCloud\Tea\Model;
 
 class GetSecretValueResponse extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'secretName' => 'SecretName',
         'secretType' => 'SecretType',
         'secretData' => 'SecretData',
@@ -21,13 +20,11 @@ class GetSecretValueResponse extends Model {
         'extendedConfig' => 'ExtendedConfig',
         'automaticRotation' => 'AutomaticRotation',
         'rotationInterval' => 'RotationInterval',
+        'responseHeaders' => 'responseHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->secretName) {
             $res['SecretName'] = $this->secretName;
         }
@@ -67,6 +64,9 @@ class GetSecretValueResponse extends Model {
         if (null !== $this->rotationInterval) {
             $res['RotationInterval'] = $this->rotationInterval;
         }
+        if (null !== $this->responseHeaders) {
+            $res['responseHeaders'] = $this->responseHeaders;
+        }
         return $res;
     }
     /**
@@ -75,9 +75,6 @@ class GetSecretValueResponse extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['SecretName'])){
             $model->secretName = $map['SecretName'];
         }
@@ -119,76 +116,93 @@ class GetSecretValueResponse extends Model {
         if(isset($map['RotationInterval'])){
             $model->rotationInterval = $map['RotationInterval'];
         }
+        if(isset($map['responseHeaders'])){
+            $model->responseHeaders = $map['responseHeaders'];
+        }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 凭据名称
      * @var string
      */
     public $secretName;
 
     /**
+     * @description 凭据类型
      * @var string
      */
     public $secretType;
 
     /**
+     * @description 凭据值
      * @var string
      */
     public $secretData;
 
     /**
+     * @description 凭据值类型
      * @var string
      */
     public $secretDataType;
 
     /**
+     * @description 凭据版本的状态标记
      * @var string[]
      */
     public $versionStages;
 
     /**
+     * @description 凭据版本的标识符
      * @var string
      */
     public $versionId;
 
     /**
+     * @description 创建凭据的时间
      * @var string
      */
     public $createTime;
 
     /**
+     * @description 请求ID
      * @var string
      */
     public $requestId;
 
     /**
+     * @description 最近一次轮转的时间
      * @var string
      */
     public $lastRotationDate;
 
     /**
+     * @description 下一次轮转的时间
      * @var string
      */
     public $nextRotationDate;
 
     /**
+     * @description 凭据的拓展配置
      * @var string
      */
     public $extendedConfig;
 
     /**
+     * @description 是否开启自动轮转
      * @var string
      */
     public $automaticRotation;
 
     /**
+     * @description 凭据自动轮转的周期
      * @var string
      */
     public $rotationInterval;
+
+    /**
+     * @description 响应头
+     * @var string[]
+     */
+    public $responseHeaders;
 
 }

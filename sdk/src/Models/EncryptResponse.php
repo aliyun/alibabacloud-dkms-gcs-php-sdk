@@ -7,20 +7,17 @@ use AlibabaCloud\Tea\Model;
 
 class EncryptResponse extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'ciphertextBlob' => 'CiphertextBlob',
         'iv' => 'Iv',
+        'requestId' => 'RequestId',
         'algorithm' => 'Algorithm',
         'paddingMode' => 'PaddingMode',
-        'requestId' => 'RequestId',
+        'responseHeaders' => 'responseHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
@@ -30,14 +27,17 @@ class EncryptResponse extends Model {
         if (null !== $this->iv) {
             $res['Iv'] = $this->iv;
         }
+        if (null !== $this->requestId) {
+            $res['RequestId'] = $this->requestId;
+        }
         if (null !== $this->algorithm) {
             $res['Algorithm'] = $this->algorithm;
         }
         if (null !== $this->paddingMode) {
             $res['PaddingMode'] = $this->paddingMode;
         }
-        if (null !== $this->requestId) {
-            $res['RequestId'] = $this->requestId;
+        if (null !== $this->responseHeaders) {
+            $res['responseHeaders'] = $this->responseHeaders;
         }
         return $res;
     }
@@ -47,9 +47,6 @@ class EncryptResponse extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
@@ -59,50 +56,60 @@ class EncryptResponse extends Model {
         if(isset($map['Iv'])){
             $model->iv = $map['Iv'];
         }
+        if(isset($map['RequestId'])){
+            $model->requestId = $map['RequestId'];
+        }
         if(isset($map['Algorithm'])){
             $model->algorithm = $map['Algorithm'];
         }
         if(isset($map['PaddingMode'])){
             $model->paddingMode = $map['PaddingMode'];
         }
-        if(isset($map['RequestId'])){
-            $model->requestId = $map['RequestId'];
+        if(isset($map['responseHeaders'])){
+            $model->responseHeaders = $map['responseHeaders'];
         }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 数据被指定密钥加密后的密文
      * @var int[]
      */
     public $ciphertextBlob;
 
     /**
+     * @description 加密数据时使用的初始向量
      * @var int[]
      */
     public $iv;
 
     /**
+     * @description 请求ID
+     * @var string
+     */
+    public $requestId;
+
+    /**
+     * @description 加密算法
      * @var string
      */
     public $algorithm;
 
     /**
+     * @description 填充模式
      * @var string
      */
     public $paddingMode;
 
     /**
-     * @var string
+     * @description 响应头
+     * @var string[]
      */
-    public $requestId;
+    public $responseHeaders;
 
 }

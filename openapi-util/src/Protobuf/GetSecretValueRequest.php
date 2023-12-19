@@ -11,26 +11,26 @@ use Google\Protobuf\Internal\GPBUtil;
 /**
  * 凭据管家API
  *
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.GetSecretValueRequest</code>
+ * Generated from protobuf message <code>api.GetSecretValueRequest</code>
  */
 class GetSecretValueRequest extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>string SecretName = 1;</code>
      */
-    private $SecretName = '';
+    protected $SecretName = '';
     /**
      * Generated from protobuf field <code>string VersionStage = 2;</code>
      */
-    private $VersionStage = '';
+    protected $VersionStage = '';
     /**
      * Generated from protobuf field <code>string VersionId = 3;</code>
      */
-    private $VersionId = '';
+    protected $VersionId = '';
     /**
      * Generated from protobuf field <code>bool FetchExtendedConfig = 4;</code>
      */
-    private $FetchExtendedConfig = false;
+    protected $FetchExtendedConfig = false;
 
     /**
      * Constructor.
@@ -45,7 +45,7 @@ class GetSecretValueRequest extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 

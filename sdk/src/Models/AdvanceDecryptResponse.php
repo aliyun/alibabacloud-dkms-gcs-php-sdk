@@ -13,7 +13,7 @@ class AdvanceDecryptResponse extends Model {
         'algorithm' => 'Algorithm',
         'paddingMode' => 'PaddingMode',
         'keyVersionId' => 'KeyVersionId',
-        'headers' => 'Headers',
+        'responseHeaders' => 'responseHeaders',
     ];
     public function validate() {}
     public function toMap() {
@@ -36,8 +36,8 @@ class AdvanceDecryptResponse extends Model {
         if (null !== $this->keyVersionId) {
             $res['KeyVersionId'] = $this->keyVersionId;
         }
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
+        if (null !== $this->responseHeaders) {
+            $res['responseHeaders'] = $this->responseHeaders;
         }
         return $res;
     }
@@ -65,44 +65,51 @@ class AdvanceDecryptResponse extends Model {
         if(isset($map['KeyVersionId'])){
             $model->keyVersionId = $map['KeyVersionId'];
         }
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
+        if(isset($map['responseHeaders'])){
+            $model->responseHeaders = $map['responseHeaders'];
         }
         return $model;
     }
     /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 待加密的明文数据
      * @var int[]
      */
     public $plaintext;
 
     /**
+     * @description 请求ID
      * @var string
      */
     public $requestId;
 
     /**
+     * @description 加密算法
      * @var string
      */
     public $algorithm;
 
     /**
+     * @description 填充模式
      * @var string
      */
     public $paddingMode;
 
     /**
+     * @description 密钥版本唯一标识符
      * @var string
      */
     public $keyVersionId;
 
     /**
+     * @description 响应头
      * @var string[]
      */
-    public $headers;
+    public $responseHeaders;
 
 }

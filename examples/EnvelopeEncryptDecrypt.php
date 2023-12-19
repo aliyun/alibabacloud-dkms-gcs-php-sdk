@@ -69,14 +69,9 @@ function envelopeEncryptSample($client, $keyId, $data)
         "keyId" => $keyId,
         "numberOfBytes" => 32,
     ]);
-    // 验证服务端证书
-    $runtimeOptions = new RuntimeOptions([
-        'verify' => 'path/to/caCert.pem',
-    ]);
-    // 或者，忽略证书
-    //$runtimeOptions = new RuntimeOptions([
-    //    'ignoreSSL' => true,
-    //]);
+    // 忽略证书
+    $runtimeOptions = new RuntimeOptions();
+    //$runtimeOptions->ignoreSSL = true;
 
     try {
         // 调用生成数据密钥接口
@@ -144,14 +139,9 @@ function envelopeDecryptSample($client, $keyId, $envelopeCipherText)
         'ciphertextBlob' => $encryptedDataKey,
         'iv' => $dataKeyIv
     ]);
-    // 验证服务端证书
-    $runtimeOptions = new RuntimeOptions([
-        'verify' => 'path/to/caCert.pem',
-    ]);
-    // 或者，忽略证书
-    //$runtimeOptions = new RuntimeOptions([
-    //    'ignoreSSL' => true,
-    //]);
+    // 忽略证书
+    $runtimeOptions = new RuntimeOptions();
+    //$runtimeOptions->ignoreSSL = true;
 
     try {
         // 调用解密接口进行解密
@@ -197,6 +187,8 @@ function getDkmsGcsSdkClient()
     $config->clientKeyContent = $clientKeyContent;
     $config->password = $password;
     $config->endpoint = $endpoint;
+    // 验证服务端证书
+    $config->caFilePath = 'path/to/caCert.pem';
 
     // 构建专属KMS SDK Client对象
     return new AlibabaCloudDkmsGcsSdkClient($config);

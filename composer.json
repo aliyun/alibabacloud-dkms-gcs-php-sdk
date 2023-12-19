@@ -6,6 +6,13 @@
         "php": ">=5.6",
         "alibabacloud/tea": "^3.2.1",
         "alibabacloud/tea-utils": "^0.2.18",
+        "alibabacloud/darabonba-map": "^0.0.1",
+        "alibabacloud/darabonba-array": "^0.1.0",
+        "alibabacloud/darabonba-string": "^0.1.14",
+        "alibabacloud/darabonba-encode-util": "^0.0.2",
+        "alibabacloud/darabonba-stream": "^0.0.1",
+        "alibabacloud/darabonba-signature-util": "^0.0.4",
+        "alibabacloud/openapi-util": "^0.1.10|^0.2.1",
         "ext-json": "*",
         "ext-openssl": "*",
         "google/protobuf": "^3.3"
@@ -15,7 +22,8 @@
         "psr-4": {
             "AlibabaCloud\\Dkms\\Gcs\\Sdk\\": "sdk/src/",
             "AlibabaCloud\\Dkms\\Gcs\\OpenApi\\Util\\": "openapi-util/src/",
-            "GPBMetadata\\": "openapi-util/src/Protobuf/GPBMetadata",
+            "AlibabaCloud\\Dkms\\Gcs\\OpenApi\\Util\\Protobuf\\GPBMetadata\\": "openapi-util/src/Protobuf/GPBMetadata/",
+            "AlibabaCloud\\Dkms\\Gcs\\OpenApi\\Util\\Protobuf\\": "openapi-util/src/Protobuf/",
             "AlibabaCloud\\Dkms\\Gcs\\OpenApi\\Credential\\": "openapi-credential/src/",
             "AlibabaCloud\\Dkms\\Gcs\\OpenApi\\": "openapi/src/"
         }
