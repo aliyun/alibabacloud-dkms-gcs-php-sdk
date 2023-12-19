@@ -6,7 +6,7 @@ English | [简体中文](README-CN.md)
 
 - [Overview](https://www.alibabacloud.com/help/doc-detail/311016.htm)
 - [Quick Start](https://www.alibabacloud.com/help/doc-detail/311368.htm)
-- [Sample Code](/example)
+- [Sample Code](/examples)
 
 ## Requirements
 
@@ -21,7 +21,7 @@ composer require alibabacloud/dkms-gcs-sdk
 Or, You can also declare the dependency on AlibabaCloud DKMS SDK for PHP in the composer.json file:
 ```
 "require": {
-     "alibabacloud/dkms-gcs-sdk": "^0.3.0"
+     "alibabacloud/dkms-gcs-sdk": "^0.4.0"
  }
 ```
 Then run the following to install the dependency:

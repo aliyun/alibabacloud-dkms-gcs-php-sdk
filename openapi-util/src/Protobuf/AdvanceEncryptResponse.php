@@ -9,38 +9,38 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.AdvanceEncryptResponse</code>
+ * Generated from protobuf message <code>api.AdvanceEncryptResponse</code>
  */
 class AdvanceEncryptResponse extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>string KeyId = 1;</code>
      */
-    private $KeyId = '';
+    protected $KeyId = '';
     /**
      * Generated from protobuf field <code>bytes CiphertextBlob = 2;</code>
      */
-    private $CiphertextBlob = '';
+    protected $CiphertextBlob = '';
     /**
      * Generated from protobuf field <code>bytes Iv = 3;</code>
      */
-    private $Iv = '';
+    protected $Iv = '';
     /**
      * Generated from protobuf field <code>string RequestId = 4;</code>
      */
-    private $RequestId = '';
+    protected $RequestId = '';
     /**
      * Generated from protobuf field <code>string Algorithm = 5;</code>
      */
-    private $Algorithm = '';
+    protected $Algorithm = '';
     /**
      * Generated from protobuf field <code>string PaddingMode = 6;</code>
      */
-    private $PaddingMode = '';
+    protected $PaddingMode = '';
     /**
      * Generated from protobuf field <code>string KeyVersionId = 7;</code>
      */
-    private $KeyVersionId = '';
+    protected $KeyVersionId = '';
 
     /**
      * Constructor.
@@ -58,7 +58,7 @@ class AdvanceEncryptResponse extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 

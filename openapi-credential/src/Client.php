@@ -3,79 +3,72 @@
 // This file is auto-generated, don't edit it. Thanks.
 namespace AlibabaCloud\Dkms\Gcs\OpenApi\Credential;
 
-use AlibabaCloud\Dkms\Gcs\OpenApi\Credential\Auth\Signer;
-use AlibabaCloud\Dkms\Gcs\OpenApi\Credential\Models\Config;
-use AlibabaCloud\Dkms\Gcs\OpenApi\Credential\Provider\AlibabaCloudCredentialsProvider;
-use AlibabaCloud\Dkms\Gcs\OpenApi\Credential\Provider\RsaKeyPairCredentialProvider;
-use \Exception;
+use AlibabaCloud\Tea\Utils\Utils;
+use AlibabaCloud\Darabonba\EncodeUtil\EncodeUtil;
+use AlibabaCloud\Dkms\Gcs\OpenApi\Util\Client as AlibabaCloudDkmsGcsOpenApiUtilClient;
+use AlibabaCloud\Darabonba\Stream\StreamUtil;
+use AlibabaCloud\Tea\Exception\TeaError;
+use AlibabaCloud\Darabonba\SignatureUtil\SignatureUtil;
 
-class Client
-{
-    /**
-     * @var AlibabaCloudCredentialsProvider
-     */
-    private $credentialsProvider;
+class Client {
+    protected $_keyId;
 
-    /**
-     * @param Config $config
-     * @throws Exception
-     */
-    public function __construct($config)
-    {
-        if ($config->type === 'rsa_key_pair') {
-            if (!empty($config->clientKeyContent)) {
-                $clientKey = \json_decode($config->clientKeyContent);
-                $privateKeyData = \base64_decode($clientKey->{'PrivateKeyData'});
-                if (!\openssl_pkcs12_read($privateKeyData, $keystore, $config->password)) {
-                    throw new Exception('Could not decrypt the privateKey of clientKey, the password is incorrect, ' . 'or it is not a valid pkcs12.');
-                }
-                $this->credentialsProvider = new RsaKeyPairCredentialProvider($clientKey->{'KeyId'}, $keystore['pkey']);
-            } elseif (!empty($config->clientKeyFile)) {
-                if (!\is_file($config->clientKeyFile)) {
-                    throw new Exception(\sprintf("Read client key file failed: %s", $config->clientKeyFile));
-                }
-                $file = \fopen($config->clientKeyFile, 'r');
-                $clientKeyJson = \fread($file, \filesize($config->clientKeyFile));
-                \fclose($file);
-                $clientKey = \json_decode($clientKeyJson);
-                $privateKeyData = \base64_decode($clientKey->{'PrivateKeyData'});
-                if (!\openssl_pkcs12_read($privateKeyData, $keystore, $config->password)) {
-                    throw new Exception('Could not decrypt the privateKey of clientKey, the password is incorrect, ' . 'or it is not a valid pkcs12.');
-                }
-                $this->credentialsProvider = new RsaKeyPairCredentialProvider($clientKey->{'KeyId'}, $keystore['pkey']);
-            } else {
-                $this->credentialsProvider = new RsaKeyPairCredentialProvider($config->accessKeyId, $config->privateKey);
+    protected $_privateKeySecret;
+
+    public function __construct($config){
+        if (Utils::equalString("rsa_key_pair", $config->type)) {
+            if (!Utils::empty_($config->clientKeyContent)) {
+                $json = Utils::parseJSON($config->clientKeyContent);
+                $clientKey = Utils::assertAsMap($json);
+                $privateKeyData = EncodeUtil::base64Decode(Utils::assertAsString(@$clientKey["PrivateKeyData"]));
+                $this->_privateKeySecret = AlibabaCloudDkmsGcsOpenApiUtilClient::getPrivatePemFromPk12($privateKeyData, $config->password);
+                $this->_keyId = Utils::assertAsString(@$clientKey["KeyId"]);
             }
-        } else {
-            throw new Exception('Only support rsa key pair credential provider now.');
+            else if (!Utils::empty_($config->clientKeyFile)) {
+                $jsonFromFile = Utils::readAsJSON(StreamUtil::readFromFilePath($config->clientKeyFile));
+                if (Utils::isUnset($jsonFromFile)) {
+                    throw new TeaError([
+                        "message" => "read client key file failed: " . $config->clientKeyFile . ""
+                    ]);
+                }
+                $clientKeyFromFile = Utils::assertAsMap($jsonFromFile);
+                $privateKeyDataFromFile = EncodeUtil::base64Decode(Utils::assertAsString(@$clientKeyFromFile["PrivateKeyData"]));
+                $this->_privateKeySecret = AlibabaCloudDkmsGcsOpenApiUtilClient::getPrivatePemFromPk12($privateKeyDataFromFile, $config->password);
+                $this->_keyId = Utils::assertAsString(@$clientKeyFromFile["KeyId"]);
+            }
+            else {
+                $this->_privateKeySecret = $config->privateKey;
+                $this->_keyId = $config->accessKeyId;
+            }
+        }
+        else {
+            throw new TeaError([
+                "message" => "Only support rsa key pair credential provider now."
+            ]);
         }
     }
 
     /**
      * @return string
      */
-    public function getAccessKeyId()
-    {
-        return $this->credentialsProvider->getCredentials()->getAccessKeyId();
+    public function getAccessKeyId(){
+        return $this->_keyId;
     }
 
     /**
      * @return string
      */
-    public function getAccessKeySecret()
-    {
-        return $this->credentialsProvider->getCredentials()->getAccessKeySecret();
+    public function getAccessKeySecret(){
+        return $this->_privateKeySecret;
     }
 
     /**
      * @param string $strToSign
      * @return string
-     * @throws Exception
      */
-    public function getSignature($strToSign)
-    {
-        $credentials = $this->credentialsProvider->getCredentials();
-        $signer = Signer::getSigner($credentials);
-        return $signer->signString($strToSign, $credentials->getAccessKeySecret());
+    public function getSignature($strToSign){
+        $prefix = "Bearer ";
+        $sign = EncodeUtil::base64EncodeToString(SignatureUtil::SHA256withRSASign($strToSign, $this->getAccessKeySecret()));
+        return "" . $prefix . "" . $sign . "";
     }
 }

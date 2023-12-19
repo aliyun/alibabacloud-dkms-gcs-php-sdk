@@ -10,7 +10,7 @@ class AdvanceGenerateDataKeyRequest extends Model {
         'keyId' => 'KeyId',
         'numberOfBytes' => 'NumberOfBytes',
         'aad' => 'Aad',
-        'headers' => 'Headers',
+        'requestHeaders' => 'requestHeaders',
     ];
     public function validate() {}
     public function toMap() {
@@ -24,8 +24,8 @@ class AdvanceGenerateDataKeyRequest extends Model {
         if (null !== $this->aad) {
             $res['Aad'] = $this->aad;
         }
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
+        if (null !== $this->requestHeaders) {
+            $res['requestHeaders'] = $this->requestHeaders;
         }
         return $res;
     }
@@ -44,29 +44,33 @@ class AdvanceGenerateDataKeyRequest extends Model {
         if(isset($map['Aad'])){
             $model->aad = $map['Aad'];
         }
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
+        if(isset($map['requestHeaders'])){
+            $model->requestHeaders = $map['requestHeaders'];
         }
         return $model;
     }
     /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 生成的数据密钥的长度
      * @var int
      */
     public $numberOfBytes;
 
     /**
+     * @description 对数据密钥加密时使用的GCM加密模式认证数据
      * @var int[]
      */
     public $aad;
 
     /**
+     * @description 请求头
      * @var string[]
      */
-    public $headers;
+    public $requestHeaders;
 
 }

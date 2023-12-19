@@ -7,33 +7,29 @@ use AlibabaCloud\Tea\Model;
 
 class SignRequest extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'algorithm' => 'Algorithm',
-        'digest' => 'Digest',
         'message' => 'Message',
         'messageType' => 'MessageType',
+        'requestHeaders' => 'requestHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
         if (null !== $this->algorithm) {
             $res['Algorithm'] = $this->algorithm;
         }
-        if (null !== $this->digest) {
-            $res['Digest'] = $this->digest;
-        }
         if (null !== $this->message) {
             $res['Message'] = $this->message;
         }
         if (null !== $this->messageType) {
             $res['MessageType'] = $this->messageType;
+        }
+        if (null !== $this->requestHeaders) {
+            $res['requestHeaders'] = $this->requestHeaders;
         }
         return $res;
     }
@@ -43,17 +39,11 @@ class SignRequest extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
         if(isset($map['Algorithm'])){
             $model->algorithm = $map['Algorithm'];
-        }
-        if(isset($map['Digest'])){
-            $model->digest = $map['Digest'];
         }
         if(isset($map['Message'])){
             $model->message = $map['Message'];
@@ -61,36 +51,39 @@ class SignRequest extends Model {
         if(isset($map['MessageType'])){
             $model->messageType = $map['MessageType'];
         }
+        if(isset($map['requestHeaders'])){
+            $model->requestHeaders = $map['requestHeaders'];
+        }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 加密算法
      * @var string
      */
     public $algorithm;
 
     /**
-     * @var int[]
-     */
-    public $digest;
-
-    /**
+     * @description 签名消息
      * @var int[]
      */
     public $message;
 
     /**
+     * @description 消息类型: 1. RAW（默认值）：原始数据2. DIGEST：原始数据的消息摘要
      * @var string
      */
     public $messageType;
+
+    /**
+     * @description 请求头
+     * @var string[]
+     */
+    public $requestHeaders;
 
 }

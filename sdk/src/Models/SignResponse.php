@@ -7,24 +7,24 @@ use AlibabaCloud\Tea\Model;
 
 class SignResponse extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'signature' => 'Signature',
+        'requestId' => 'RequestId',
         'algorithm' => 'Algorithm',
         'messageType' => 'MessageType',
-        'requestId' => 'RequestId',
+        'responseHeaders' => 'responseHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
         if (null !== $this->signature) {
             $res['Signature'] = $this->signature;
+        }
+        if (null !== $this->requestId) {
+            $res['RequestId'] = $this->requestId;
         }
         if (null !== $this->algorithm) {
             $res['Algorithm'] = $this->algorithm;
@@ -32,8 +32,8 @@ class SignResponse extends Model {
         if (null !== $this->messageType) {
             $res['MessageType'] = $this->messageType;
         }
-        if (null !== $this->requestId) {
-            $res['RequestId'] = $this->requestId;
+        if (null !== $this->responseHeaders) {
+            $res['responseHeaders'] = $this->responseHeaders;
         }
         return $res;
     }
@@ -43,14 +43,14 @@ class SignResponse extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
         if(isset($map['Signature'])){
             $model->signature = $map['Signature'];
+        }
+        if(isset($map['RequestId'])){
+            $model->requestId = $map['RequestId'];
         }
         if(isset($map['Algorithm'])){
             $model->algorithm = $map['Algorithm'];
@@ -58,39 +58,45 @@ class SignResponse extends Model {
         if(isset($map['MessageType'])){
             $model->messageType = $map['MessageType'];
         }
-        if(isset($map['RequestId'])){
-            $model->requestId = $map['RequestId'];
+        if(isset($map['responseHeaders'])){
+            $model->responseHeaders = $map['responseHeaders'];
         }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 计算出来的签名值
      * @var int[]
      */
     public $signature;
 
     /**
+     * @description 请求ID
+     * @var string
+     */
+    public $requestId;
+
+    /**
+     * @description 加密算法
      * @var string
      */
     public $algorithm;
 
     /**
+     * @description 消息类型: 1. RAW（默认值）：原始数据2. DIGEST：原始数据的消息摘要
      * @var string
      */
     public $messageType;
 
     /**
-     * @var string
+     * @description 响应头
+     * @var string[]
      */
-    public $requestId;
+    public $responseHeaders;
 
 }

@@ -9,18 +9,18 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.GenerateRandomResponse</code>
+ * Generated from protobuf message <code>api.GenerateRandomResponse</code>
  */
 class GenerateRandomResponse extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>bytes Random = 1;</code>
      */
-    private $Random = '';
+    protected $Random = '';
     /**
      * Generated from protobuf field <code>string RequestId = 2;</code>
      */
-    private $RequestId = '';
+    protected $RequestId = '';
 
     /**
      * Constructor.
@@ -33,7 +33,7 @@ class GenerateRandomResponse extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 

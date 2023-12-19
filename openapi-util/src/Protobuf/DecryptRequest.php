@@ -9,34 +9,34 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.DecryptRequest</code>
+ * Generated from protobuf message <code>api.DecryptRequest</code>
  */
 class DecryptRequest extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>bytes CiphertextBlob = 1;</code>
      */
-    private $CiphertextBlob = '';
+    protected $CiphertextBlob = '';
     /**
      * Generated from protobuf field <code>string KeyId = 2;</code>
      */
-    private $KeyId = '';
+    protected $KeyId = '';
     /**
      * Generated from protobuf field <code>string Algorithm = 3;</code>
      */
-    private $Algorithm = '';
+    protected $Algorithm = '';
     /**
      * Generated from protobuf field <code>bytes Aad = 4;</code>
      */
-    private $Aad = '';
+    protected $Aad = '';
     /**
      * Generated from protobuf field <code>bytes Iv = 5;</code>
      */
-    private $Iv = '';
+    protected $Iv = '';
     /**
      * Generated from protobuf field <code>string PaddingMode = 6;</code>
      */
-    private $PaddingMode = '';
+    protected $PaddingMode = '';
 
     /**
      * Constructor.
@@ -53,7 +53,7 @@ class DecryptRequest extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 

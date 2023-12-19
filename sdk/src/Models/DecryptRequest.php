@@ -7,20 +7,17 @@ use AlibabaCloud\Tea\Model;
 
 class DecryptRequest extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'ciphertextBlob' => 'CiphertextBlob',
         'keyId' => 'KeyId',
         'algorithm' => 'Algorithm',
         'aad' => 'Aad',
         'iv' => 'Iv',
         'paddingMode' => 'PaddingMode',
+        'requestHeaders' => 'requestHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->ciphertextBlob) {
             $res['CiphertextBlob'] = $this->ciphertextBlob;
         }
@@ -39,6 +36,9 @@ class DecryptRequest extends Model {
         if (null !== $this->paddingMode) {
             $res['PaddingMode'] = $this->paddingMode;
         }
+        if (null !== $this->requestHeaders) {
+            $res['requestHeaders'] = $this->requestHeaders;
+        }
         return $res;
     }
     /**
@@ -47,9 +47,6 @@ class DecryptRequest extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['CiphertextBlob'])){
             $model->ciphertextBlob = $map['CiphertextBlob'];
         }
@@ -68,41 +65,51 @@ class DecryptRequest extends Model {
         if(isset($map['PaddingMode'])){
             $model->paddingMode = $map['PaddingMode'];
         }
+        if(isset($map['requestHeaders'])){
+            $model->requestHeaders = $map['requestHeaders'];
+        }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 数据被指定密钥加密后的密文
      * @var int[]
      */
     public $ciphertextBlob;
 
     /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 加密算法
      * @var string
      */
     public $algorithm;
 
     /**
+     * @description 对数据密钥加密时使用的GCM加密模式认证数据
      * @var int[]
      */
     public $aad;
 
     /**
+     * @description 加密数据时使用的初始向量
      * @var int[]
      */
     public $iv;
 
     /**
+     * @description 填充模式
      * @var string
      */
     public $paddingMode;
+
+    /**
+     * @description 请求头
+     * @var string[]
+     */
+    public $requestHeaders;
 
 }

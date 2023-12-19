@@ -55,21 +55,25 @@ class ErrorResponse extends Model {
         return $model;
     }
     /**
+     * @description 
      * @var string
      */
     public $statusCode;
 
     /**
+     * @description 
      * @var string
      */
     public $errorCode;
 
     /**
+     * @description 
      * @var string
      */
     public $errorMessage;
 
     /**
+     * @description 
      * @var string
      */
     public $requestId;

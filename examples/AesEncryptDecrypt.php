@@ -4,15 +4,46 @@ if (is_file(__DIR__ . '/../autoload.php')) {
     require_once __DIR__ . '/../autoload.php';
 }
 
-use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
 use AlibabaCloud\Dkms\Gcs\OpenApi\Util\Models\RuntimeOptions;
 use AlibabaCloud\Dkms\Gcs\Sdk\Client as AlibabaCloudDkmsGcsSdkClient;
-use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceDecryptRequest;
-use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceEncryptRequest;
+use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\DecryptRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\EncryptRequest;
 use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
 
+/**
+ * ClientKey传参支持以下三种方式：
+ * 1、通过指定ClientKey.json文件路径方式
+ * 示例：
+ *      String clientKeyFile = "<your client key file path>";
+ *      String password = "<your client key password>";
+ *      Config cfg = new Config();
+ *      cfg.setClientKeyFile(clientKeyFile);
+ *      cfg.setPassword(password);
+ *
+ * 2、通过指定ClientKey内容方式
+ * 示例：
+ *      String clientKeyContent = "<your client key content>";
+ *      String password = "<your client key password>";
+ *      Config cfg = new Config();
+ *      cfg.setClientKeyContent(clientKeyContent);
+ *      cfg.setPassword(password);
+ *
+ * 3、通过指定私钥和AccessKeyId
+ * 示例：
+ *      String accessKeyId = "<your client key KeyId>";
+ *      String privateKey = "<parse from your client key PrivateKeyData>";
+ *      Config cfg = new Config();
+ *      cfg.setAccessKeyId(accessKeyId);
+ *      cfg.setPrivateKey(privateKey);
+ *
+ */
+
 // 填写您在KMS应用管理获取的ClientKey文件路径
-$clientKeyFile = '<your client key file path>';
+// $clientKeyFile = '<your client key file path>';
+
+// 或者，填写您在KMS应用管理获取的ClientKey文件内容
+$clientKeyContent = '<your client key content>';
 
 // 填写您在KMS应用管理创建ClientKey时输入的加密口令
 $password = getenv('CLIENT_KEY_PASSWORD');
@@ -27,30 +58,30 @@ $keyId = '<your cmk id>';
 $algorithm = '<your encrypt algorithm>';
 
 // 待加密明文
-$plaintext = 'encrypt and decrypt sample';
+$plaintext = 'encrypt plaintext';
 
 // 专属KMS SDK Client对象
 $client = getDkmsGcsSdkClient();
 if (is_null($client)) exit(1);
 
-//使用加密服务实例进行高级加解密示例
-advanceEncryptDecryptSample();
+//使用专属KMS进行对称密钥加解密示例
+aesEncryptDecryptSample();
 
 /**
- * 使用加密服务实例进行高级加解密示例
+ * 使用加密服务实例进行加解密示例
  * @return void
  */
-function advanceEncryptDecryptSample()
+function aesEncryptDecryptSample()
 {
     global $client, $keyId, $plaintext, $algorithm;
 
-    $cipherCtx = advanceEncryptSample($client, $keyId, $plaintext, $algorithm);
+    $cipherCtx = aesEncryptSample($client, $keyId, $plaintext, $algorithm);
     if ($cipherCtx !== null) {
-        $decryptResult = AlibabaCloudTeaUtils::toString(advanceDecryptSample($client, $cipherCtx));
+        $decryptResult = AlibabaCloudTeaUtils::toString(aesDecryptSample($client, $cipherCtx));
         if ($plaintext !== $decryptResult) {
             echo 'decrypt result not match the plaintext' . PHP_EOL;
         } else {
-            echo 'advanceEncryptDecryptSample success' . PHP_EOL;
+            echo 'aesEncryptDecryptSample success' . PHP_EOL;
         }
     }
 }
@@ -61,24 +92,22 @@ function advanceEncryptDecryptSample()
  * @param string $keyId
  * @param string $plaintext
  * @param string $algorithm
- * @return AdvanceEncryptContext
+ * @return AesEncryptContext
  */
-function advanceEncryptSample($client, $keyId, $plaintext, $algorithm)
+function aesEncryptSample($client, $keyId, $plaintext, $algorithm)
 {
     // 构建加密请求
-    $encryptRequest = new AdvanceEncryptRequest();
+    $encryptRequest = new EncryptRequest();
     $encryptRequest->keyId = $keyId;
     $encryptRequest->algorithm = $algorithm;
     $encryptRequest->plaintext = AlibabaCloudTeaUtils::toBytes($plaintext);
     $runtimeOptions = new RuntimeOptions();
-    // 验证服务端证书
-    $runtimeOptions->verify = 'path/to/caCert.pem';
-    // 或者，忽略服务端证书
+    // 忽略服务端证书
     //$runtimeOptions->ignoreSSL = true;
 
     try {
         // 调用加密接口进行加密
-        $encryptResponse = $client->advanceEncryptWithOptions($encryptRequest, $runtimeOptions);
+        $encryptResponse = $client->encryptWithOptions($encryptRequest, $runtimeOptions);
         // 密钥ID
         $keyId = $encryptResponse->keyId;
         // 主密钥是对称密钥时，decrypt接口需要加密返回的Iv
@@ -88,7 +117,7 @@ function advanceEncryptSample($client, $keyId, $plaintext, $algorithm)
         // 加密算法
         $algorithm = $encryptResponse->algorithm;
         var_dump($encryptResponse->toMap());
-        return new AdvanceEncryptContext([
+        return new AesEncryptContext([
             'keyId' => $keyId,
             'iv' => $iv,
             'ciphertextBlob' => $cipher,
@@ -107,26 +136,24 @@ function advanceEncryptSample($client, $keyId, $plaintext, $algorithm)
 /**
  * 解密示例
  * @param AlibabaCloudDkmsGcsSdkClient $client
- * @param AdvanceEncryptContext $ctx
+ * @param AesEncryptContext $ctx
  * @return int[]|null
  */
-function advanceDecryptSample($client, $ctx)
+function aesDecryptSample($client, $ctx)
 {
     // 构建解密请求对象
-    $decryptRequest = new AdvanceDecryptRequest();
+    $decryptRequest = new DecryptRequest();
     $decryptRequest->keyId = $ctx->keyId;
     $decryptRequest->ciphertextBlob = $ctx->ciphertextBlob;
     $decryptRequest->algorithm = $ctx->algorithm;
     $decryptRequest->iv = $ctx->iv;
     $runtimeOptions = new RuntimeOptions();
-    // 验证服务端证书
-    $runtimeOptions->verify = 'path/to/caCert.pem';
-    // 或者，忽略证书
+    // 忽略证书
     //$runtimeOptions->ignoreSSL = true;
 
     try {
         // 调用解密接口进行解密
-        $decryptResponse = $client->advanceDecryptWithOptions($decryptRequest, $runtimeOptions);
+        $decryptResponse = $client->decryptWithOptions($decryptRequest, $runtimeOptions);
         var_dump($decryptResponse->toMap());
         return $decryptResponse->plaintext;
     } catch (Exception $error) {
@@ -145,21 +172,25 @@ function advanceDecryptSample($client, $ctx)
  */
 function getDkmsGcsSdkClient()
 {
-    global $clientKeyFile, $password, $endpoint;
+    global $clientKeyContent, $password, $endpoint;
 
     // 构建专属KMS SDK Client配置
     $config = new AlibabaCloudDkmsGcsOpenApiConfig();
     $config->protocol = 'https';
-    $config->clientKeyFile = $clientKeyFile;
+    $config->clientKeyContent = $clientKeyContent;
     $config->password = $password;
     $config->endpoint = $endpoint;
+    // 验证服务端证书
+    $config->caFilePath = 'path/to/caCert.pem';
 
     // 构建专属KMS SDK Client对象
     return new AlibabaCloudDkmsGcsSdkClient($config);
 }
 
-// The advance encrypt context may be stored
-class AdvanceEncryptContext
+/**
+ * The aes encrypt context may be stored
+ */
+class AesEncryptContext
 {
     public function __construct($config = [])
     {

@@ -9,22 +9,22 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.AdvanceGenerateDataKeyRequest</code>
+ * Generated from protobuf message <code>api.AdvanceGenerateDataKeyRequest</code>
  */
 class AdvanceGenerateDataKeyRequest extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>string KeyId = 1;</code>
      */
-    private $KeyId = '';
+    protected $KeyId = '';
     /**
      * Generated from protobuf field <code>int32 NumberOfBytes = 2;</code>
      */
-    private $NumberOfBytes = 0;
+    protected $NumberOfBytes = 0;
     /**
      * Generated from protobuf field <code>bytes Aad = 3;</code>
      */
-    private $Aad = '';
+    protected $Aad = '';
 
     /**
      * Constructor.
@@ -38,7 +38,7 @@ class AdvanceGenerateDataKeyRequest extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 
