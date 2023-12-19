@@ -9,18 +9,18 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.HmacRequest</code>
+ * Generated from protobuf message <code>api.HmacRequest</code>
  */
 class HmacRequest extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>string KeyId = 1;</code>
      */
-    private $KeyId = '';
+    protected $KeyId = '';
     /**
      * Generated from protobuf field <code>bytes Message = 2;</code>
      */
-    private $Message = '';
+    protected $Message = '';
 
     /**
      * Constructor.
@@ -33,7 +33,7 @@ class HmacRequest extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 

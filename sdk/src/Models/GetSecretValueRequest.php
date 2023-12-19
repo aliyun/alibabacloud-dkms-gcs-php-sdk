@@ -7,18 +7,15 @@ use AlibabaCloud\Tea\Model;
 
 class GetSecretValueRequest extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'secretName' => 'SecretName',
         'versionStage' => 'VersionStage',
         'versionId' => 'VersionId',
         'fetchExtendedConfig' => 'FetchExtendedConfig',
+        'requestHeaders' => 'requestHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->secretName) {
             $res['SecretName'] = $this->secretName;
         }
@@ -31,6 +28,9 @@ class GetSecretValueRequest extends Model {
         if (null !== $this->fetchExtendedConfig) {
             $res['FetchExtendedConfig'] = $this->fetchExtendedConfig;
         }
+        if (null !== $this->requestHeaders) {
+            $res['requestHeaders'] = $this->requestHeaders;
+        }
         return $res;
     }
     /**
@@ -39,9 +39,6 @@ class GetSecretValueRequest extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['SecretName'])){
             $model->secretName = $map['SecretName'];
         }
@@ -54,31 +51,39 @@ class GetSecretValueRequest extends Model {
         if(isset($map['FetchExtendedConfig'])){
             $model->fetchExtendedConfig = $map['FetchExtendedConfig'];
         }
+        if(isset($map['requestHeaders'])){
+            $model->requestHeaders = $map['requestHeaders'];
+        }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 凭据名称
      * @var string
      */
     public $secretName;
 
     /**
+     * @description 版本状态
      * @var string
      */
     public $versionStage;
 
     /**
+     * @description 版本号
      * @var string
      */
     public $versionId;
 
     /**
+     * @description 是否获取凭据的拓展配置true（默认值）：是,false：否
      * @var bool
      */
     public $fetchExtendedConfig;
+
+    /**
+     * @description 请求头
+     * @var string[]
+     */
+    public $requestHeaders;
 
 }

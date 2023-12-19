@@ -7,18 +7,15 @@ use AlibabaCloud\Tea\Model;
 
 class GenerateDataKeyRequest extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'algorithm' => 'Algorithm',
         'numberOfBytes' => 'NumberOfBytes',
         'aad' => 'Aad',
+        'requestHeaders' => 'requestHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
@@ -31,6 +28,9 @@ class GenerateDataKeyRequest extends Model {
         if (null !== $this->aad) {
             $res['Aad'] = $this->aad;
         }
+        if (null !== $this->requestHeaders) {
+            $res['requestHeaders'] = $this->requestHeaders;
+        }
         return $res;
     }
     /**
@@ -39,9 +39,6 @@ class GenerateDataKeyRequest extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
@@ -54,31 +51,39 @@ class GenerateDataKeyRequest extends Model {
         if(isset($map['Aad'])){
             $model->aad = $map['Aad'];
         }
+        if(isset($map['requestHeaders'])){
+            $model->requestHeaders = $map['requestHeaders'];
+        }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 加密算法
      * @var string
      */
     public $algorithm;
 
     /**
+     * @description 生成的数据密钥的长度
      * @var int
      */
     public $numberOfBytes;
 
     /**
+     * @description 对数据密钥加密时使用的GCM加密模式认证数据
      * @var int[]
      */
     public $aad;
+
+    /**
+     * @description 请求头
+     * @var string[]
+     */
+    public $requestHeaders;
 
 }

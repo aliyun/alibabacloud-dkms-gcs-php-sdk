@@ -7,20 +7,17 @@ use AlibabaCloud\Tea\Model;
 
 class EncryptRequest extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'plaintext' => 'Plaintext',
         'algorithm' => 'Algorithm',
         'aad' => 'Aad',
         'iv' => 'Iv',
         'paddingMode' => 'PaddingMode',
+        'requestHeaders' => 'requestHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
@@ -39,6 +36,9 @@ class EncryptRequest extends Model {
         if (null !== $this->paddingMode) {
             $res['PaddingMode'] = $this->paddingMode;
         }
+        if (null !== $this->requestHeaders) {
+            $res['requestHeaders'] = $this->requestHeaders;
+        }
         return $res;
     }
     /**
@@ -47,9 +47,6 @@ class EncryptRequest extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
@@ -68,41 +65,51 @@ class EncryptRequest extends Model {
         if(isset($map['PaddingMode'])){
             $model->paddingMode = $map['PaddingMode'];
         }
+        if(isset($map['requestHeaders'])){
+            $model->requestHeaders = $map['requestHeaders'];
+        }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 待加密的明文数据
      * @var int[]
      */
     public $plaintext;
 
     /**
+     * @description 加密算法
      * @var string
      */
     public $algorithm;
 
     /**
+     * @description 对数据密钥加密时使用的GCM加密模式认证数据
      * @var int[]
      */
     public $aad;
 
     /**
+     * @description 对数据加密时使用的初始向量
      * @var int[]
      */
     public $iv;
 
     /**
+     * @description 填充模式
      * @var string
      */
     public $paddingMode;
+
+    /**
+     * @description 请求头
+     * @var string[]
+     */
+    public $requestHeaders;
 
 }

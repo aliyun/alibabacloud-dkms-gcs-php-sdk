@@ -74,9 +74,7 @@ function asymmetricEncryptSample($client, $keyId, $plaintext, $algorithm)
     $encryptRequest->algorithm = $algorithm;
     $encryptRequest->plaintext = AlibabaCloudTeaUtils::toBytes($plaintext);
     $runtimeOptions = new RuntimeOptions();
-    // 验证服务端证书
-    $runtimeOptions->verify = 'path/to/caCert.pem';
-    // 或者，忽略服务端证书
+    // 忽略服务端证书
     //$runtimeOptions->ignoreSSL = true;
 
     try {
@@ -118,9 +116,7 @@ function asymmetricDecryptSample($client, $ctx)
     $decryptRequest->ciphertextBlob = $ctx->ciphertextBlob;
     $decryptRequest->algorithm = $ctx->algorithm;
     $runtimeOptions = new RuntimeOptions();
-    // 验证服务端证书
-    $runtimeOptions->verify = 'path/to/caCert.pem';
-    // 或者，忽略证书
+    // 忽略证书
     //$runtimeOptions->ignoreSSL = true;
 
     try {
@@ -152,6 +148,8 @@ function getDkmsGcsSdkClient()
     $config->clientKeyContent = $clientKeyContent;
     $config->password = $password;
     $config->endpoint = $endpoint;
+    // 验证服务端证书
+    $config->caFilePath = 'path/to/caCert.pem';
 
     // 构建专属KMS SDK Client对象
     return new AlibabaCloudDkmsGcsSdkClient($config);

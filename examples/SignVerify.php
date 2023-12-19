@@ -77,9 +77,7 @@ function signSample($client, $keyId, $message, $messageType, $algorithm) {
     $signRequest->message = AlibabaCloudTeaUtils::toBytes($message);
     $signRequest->messageType = $messageType;
     $runtimeOptions = new RuntimeOptions();
-    // 验证服务端证书
-    $runtimeOptions->verify = 'path/to/caCert.pem';
-    // 或者，忽略证书
+    // 忽略证书
     //$runtimeOptions->ignoreSSL = true;
 
     try {
@@ -126,9 +124,7 @@ function verifySample($client, $message, $ctx) {
     $verifyRequest->messageType = $ctx->messageType;
     $verifyRequest->algorithm = $ctx->algorithm;
     $runtimeOptions = new RuntimeOptions();
-    // 验证服务端证书
-    $runtimeOptions->verify = 'path/to/caCert.pem';
-    // 或者，忽略服务端证书
+    // 忽略服务端证书
     //$runtimeOptions->ignoreSSL = true;
 
     try {
@@ -162,6 +158,8 @@ function getDkmsGcsSdkClient()
     $config->clientKeyContent = $clientKeyContent;
     $config->password = $password;
     $config->endpoint = $endpoint;
+    // 验证服务端证书
+    $config->caFilePath = 'path/to/caCert.pem';
 
     // 构建专属KMS SDK Client对象
     return new AlibabaCloudDkmsGcsSdkClient($config);

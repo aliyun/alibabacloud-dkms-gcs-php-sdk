@@ -7,21 +7,21 @@ use AlibabaCloud\Tea\Model;
 
 class GenerateRandomResponse extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'random' => 'Random',
         'requestId' => 'RequestId',
+        'responseHeaders' => 'responseHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->random) {
             $res['Random'] = $this->random;
         }
         if (null !== $this->requestId) {
             $res['RequestId'] = $this->requestId;
+        }
+        if (null !== $this->responseHeaders) {
+            $res['responseHeaders'] = $this->responseHeaders;
         }
         return $res;
     }
@@ -31,30 +31,33 @@ class GenerateRandomResponse extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['Random'])){
             $model->random = $map['Random'];
         }
         if(isset($map['RequestId'])){
             $model->requestId = $map['RequestId'];
         }
+        if(isset($map['responseHeaders'])){
+            $model->responseHeaders = $map['responseHeaders'];
+        }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 随机数
      * @var int[]
      */
     public $random;
 
     /**
+     * @description 请求ID
      * @var string
      */
     public $requestId;
+
+    /**
+     * @description 响应头
+     * @var string[]
+     */
+    public $responseHeaders;
 
 }

@@ -9,14 +9,14 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.GenerateRandomRequest</code>
+ * Generated from protobuf message <code>api.GenerateRandomRequest</code>
  */
 class GenerateRandomRequest extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>int32 Length = 1;</code>
      */
-    private $Length = 0;
+    protected $Length = 0;
 
     /**
      * Constructor.
@@ -28,7 +28,7 @@ class GenerateRandomRequest extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 

@@ -21,7 +21,7 @@ class RuntimeOptions extends Model {
         'socks5Proxy' => 'socks5Proxy',
         'socks5NetWork' => 'socks5NetWork',
         'verify' => 'verify',
-        'headers' => 'headers',
+        'responseHeaders' => 'responseHeaders',
     ];
     public function validate() {}
     public function toMap() {
@@ -68,8 +68,8 @@ class RuntimeOptions extends Model {
         if (null !== $this->verify) {
             $res['verify'] = $this->verify;
         }
-        if (null !== $this->headers) {
-            $res['headers'] = $this->headers;
+        if (null !== $this->responseHeaders) {
+            $res['responseHeaders'] = $this->responseHeaders;
         }
         return $res;
     }
@@ -121,86 +121,101 @@ class RuntimeOptions extends Model {
         if(isset($map['verify'])){
             $model->verify = $map['verify'];
         }
-        if(isset($map['headers'])){
-            if(!empty($map['headers'])){
-                $model->headers = $map['headers'];
+        if(isset($map['responseHeaders'])){
+            if(!empty($map['responseHeaders'])){
+                $model->responseHeaders = $map['responseHeaders'];
             }
         }
         return $model;
     }
     /**
+     * @description 是否自动重试
      * @var bool
      */
     public $autoretry;
 
     /**
+     * @description 是否忽略SSL认证
      * @var bool
      */
     public $ignoreSSL;
 
     /**
+     * @description 最大重试次数
      * @var int
      */
     public $maxAttempts;
 
     /**
+     * @description 回退策略
      * @var string
      */
     public $backoffPolicy;
 
     /**
+     * @description 回退周期
      * @var int
      */
     public $backoffPeriod;
 
     /**
+     * @description 读取超时时间
      * @var int
      */
     public $readTimeout;
 
     /**
+     * @description 连接超时时间
      * @var int
      */
     public $connectTimeout;
 
     /**
+     * @description http代理
      * @var string
      */
     public $httpProxy;
 
     /**
+     * @description https代理
      * @var string
      */
     public $httpsProxy;
 
     /**
+     * @description 无代理
      * @var string
      */
     public $noProxy;
 
     /**
+     * @description 最大闲置连接数
      * @var int
      */
     public $maxIdleConns;
 
     /**
+     * @description socks5代理
      * @var string
      */
     public $socks5Proxy;
 
     /**
+     * @description socks5代理协议
      * @var string
      */
     public $socks5NetWork;
 
     /**
+     * @description 校验
      * @var string
      */
     public $verify;
 
     /**
+     * @description 响应头
      * @var string[]
      */
-    public $headers;
+    public $responseHeaders;
 
 }

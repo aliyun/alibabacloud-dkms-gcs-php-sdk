@@ -13,7 +13,7 @@ class AdvanceEncryptRequest extends Model {
         'aad' => 'Aad',
         'iv' => 'Iv',
         'paddingMode' => 'PaddingMode',
-        'headers' => 'Headers',
+        'requestHeaders' => 'requestHeaders',
     ];
     public function validate() {}
     public function toMap() {
@@ -36,8 +36,8 @@ class AdvanceEncryptRequest extends Model {
         if (null !== $this->paddingMode) {
             $res['PaddingMode'] = $this->paddingMode;
         }
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
+        if (null !== $this->requestHeaders) {
+            $res['requestHeaders'] = $this->requestHeaders;
         }
         return $res;
     }
@@ -65,44 +65,51 @@ class AdvanceEncryptRequest extends Model {
         if(isset($map['PaddingMode'])){
             $model->paddingMode = $map['PaddingMode'];
         }
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
+        if(isset($map['requestHeaders'])){
+            $model->requestHeaders = $map['requestHeaders'];
         }
         return $model;
     }
     /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description 待加密的明文数据
      * @var int[]
      */
     public $plaintext;
 
     /**
+     * @description 加密算法
      * @var string
      */
     public $algorithm;
 
     /**
+     * @description 对数据密钥加密时使用的GCM加密模式认证数据
      * @var int[]
      */
     public $aad;
 
     /**
+     * @description 加密数据时使用的初始向量
      * @var int[]
      */
     public $iv;
 
     /**
+     * @description 填充模式
      * @var string
      */
     public $paddingMode;
 
     /**
+     * @description 请求头
      * @var string[]
      */
-    public $headers;
+    public $requestHeaders;
 
 }

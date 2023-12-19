@@ -9,26 +9,26 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.Error</code>
+ * Generated from protobuf message <code>api.Error</code>
  */
 class Error extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>int32 StatusCode = 1;</code>
      */
-    private $StatusCode = 0;
+    protected $StatusCode = 0;
     /**
      * Generated from protobuf field <code>string ErrorCode = 2;</code>
      */
-    private $ErrorCode = '';
+    protected $ErrorCode = '';
     /**
      * Generated from protobuf field <code>string ErrorMessage = 3;</code>
      */
-    private $ErrorMessage = '';
+    protected $ErrorMessage = '';
     /**
      * Generated from protobuf field <code>string RequestId = 4;</code>
      */
-    private $RequestId = '';
+    protected $RequestId = '';
 
     /**
      * Constructor.
@@ -43,7 +43,7 @@ class Error extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 

@@ -7,17 +7,14 @@ use AlibabaCloud\Tea\Model;
 
 class GetPublicKeyResponse extends Model {
     protected $_name = [
-        'headers' => 'Headers',
         'keyId' => 'KeyId',
         'publicKey' => 'PublicKey',
         'requestId' => 'RequestId',
+        'responseHeaders' => 'responseHeaders',
     ];
     public function validate() {}
     public function toMap() {
         $res = [];
-        if (null !== $this->headers) {
-            $res['Headers'] = $this->headers;
-        }
         if (null !== $this->keyId) {
             $res['KeyId'] = $this->keyId;
         }
@@ -27,6 +24,9 @@ class GetPublicKeyResponse extends Model {
         if (null !== $this->requestId) {
             $res['RequestId'] = $this->requestId;
         }
+        if (null !== $this->responseHeaders) {
+            $res['responseHeaders'] = $this->responseHeaders;
+        }
         return $res;
     }
     /**
@@ -35,9 +35,6 @@ class GetPublicKeyResponse extends Model {
      */
     public static function fromMap($map = []) {
         $model = new self();
-        if(isset($map['Headers'])){
-            $model->headers = $map['Headers'];
-        }
         if(isset($map['KeyId'])){
             $model->keyId = $map['KeyId'];
         }
@@ -47,26 +44,33 @@ class GetPublicKeyResponse extends Model {
         if(isset($map['RequestId'])){
             $model->requestId = $map['RequestId'];
         }
+        if(isset($map['responseHeaders'])){
+            $model->responseHeaders = $map['responseHeaders'];
+        }
         return $model;
     }
     /**
-     * @var string[]
-     */
-    public $headers;
-
-    /**
+     * @description 密钥的全局唯一标识符该参数也可以被指定为密钥别名
      * @var string
      */
     public $keyId;
 
     /**
+     * @description PEM格式的公钥
      * @var string
      */
     public $publicKey;
 
     /**
+     * @description 请求ID
      * @var string
      */
     public $requestId;
+
+    /**
+     * @description 响应头
+     * @var string[]
+     */
+    public $responseHeaders;
 
 }

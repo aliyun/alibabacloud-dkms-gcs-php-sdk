@@ -9,26 +9,26 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * Generated from protobuf message <code>AlibabaCloud.Dkms.Gcs.OpenApi.Util.Protobuf.GetSecretValueResponse</code>
+ * Generated from protobuf message <code>api.GetSecretValueResponse</code>
  */
 class GetSecretValueResponse extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>string SecretName = 1;</code>
      */
-    private $SecretName = '';
+    protected $SecretName = '';
     /**
      * Generated from protobuf field <code>string SecretType = 2;</code>
      */
-    private $SecretType = '';
+    protected $SecretType = '';
     /**
      * Generated from protobuf field <code>string SecretData = 3;</code>
      */
-    private $SecretData = '';
+    protected $SecretData = '';
     /**
      * Generated from protobuf field <code>string SecretDataType = 4;</code>
      */
-    private $SecretDataType = '';
+    protected $SecretDataType = '';
     /**
      * Generated from protobuf field <code>repeated string VersionStages = 5;</code>
      */
@@ -36,35 +36,35 @@ class GetSecretValueResponse extends \Google\Protobuf\Internal\Message
     /**
      * Generated from protobuf field <code>string VersionId = 6;</code>
      */
-    private $VersionId = '';
+    protected $VersionId = '';
     /**
      * Generated from protobuf field <code>string CreateTime = 7;</code>
      */
-    private $CreateTime = '';
+    protected $CreateTime = '';
     /**
      * Generated from protobuf field <code>string RequestId = 8;</code>
      */
-    private $RequestId = '';
+    protected $RequestId = '';
     /**
      * Generated from protobuf field <code>string LastRotationDate = 9;</code>
      */
-    private $LastRotationDate = '';
+    protected $LastRotationDate = '';
     /**
      * Generated from protobuf field <code>string NextRotationDate = 10;</code>
      */
-    private $NextRotationDate = '';
+    protected $NextRotationDate = '';
     /**
      * Generated from protobuf field <code>string ExtendedConfig = 11;</code>
      */
-    private $ExtendedConfig = '';
+    protected $ExtendedConfig = '';
     /**
      * Generated from protobuf field <code>string AutomaticRotation = 12;</code>
      */
-    private $AutomaticRotation = '';
+    protected $AutomaticRotation = '';
     /**
      * Generated from protobuf field <code>string RotationInterval = 13;</code>
      */
-    private $RotationInterval = '';
+    protected $RotationInterval = '';
 
     /**
      * Constructor.
@@ -88,7 +88,7 @@ class GetSecretValueResponse extends \Google\Protobuf\Internal\Message
      * }
      */
     public function __construct($data = NULL) {
-        \GPBMetadata\Api::initOnce();
+        \AlibabaCloud\Dkms\Gcs\OpenApi\Util\Protobuf\GPBMetadata\Api::initOnce();
         parent::__construct($data);
     }
 
