@@ -49,7 +49,7 @@ require __DIR__ . '/vendor/autoload.php';
 use AlibabaCloud\Dkms\Gcs\OpenApi\Util\Models\RuntimeOptions;
 use AlibabaCloud\Dkms\Gcs\Sdk\Client as AlibabaCloudDkmsGcsSdkClient;
 use AlibabaCloud\Dkms\Gcs\OpenApi\Models\Config as AlibabaCloudDkmsGcsOpenApiConfig;
-use AlibabaCloud\Dkms\Gcs\Sdk\Models\EncryptRequest;
+use AlibabaCloud\Dkms\Gcs\Sdk\Models\AdvanceEncryptRequest;
 use AlibabaCloud\Tea\Utils\Utils as AlibabaCloudTeaUtils;
 
 // 1.构建专属KMS SDK Client配置
@@ -70,13 +70,13 @@ $runtimeOptions = new RuntimeOptions();
 $runtimeOptions->ignoreSSL = true;
 
 // 4.构建API请求并设置参数
-$encryptRequest = new EncryptRequest();
+$encryptRequest = new AdvanceEncryptRequest();
 $encryptRequest->keyId = '<your cmk id>';
 $encryptRequest->plaintext = AlibabaCloudTeaUtils::toBytes('encrypt plaintext');
 
 // 5.发起请求并处理应答或异常
 try {
-    $encryptResponse = $client->encryptWithOptions($encryptRequest, $runtimeOptions);
+    $encryptResponse = $client->advanceEncryptWithOptions($encryptRequest, $runtimeOptions);
     var_dump($encryptResponse->toMap());
 } catch (Exception $error) {
     if ($error instanceof \AlibabaCloud\Tea\Exception\TeaError) {
